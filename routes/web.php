@@ -97,6 +97,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:supplier.update')
                 ->name('edit');
         });
+
+    // SERVICE MANAGEMENT
+    Route::prefix('services')
+        ->name('services.')
+        ->middleware(['permission:service.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::service.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::service.form')
+                ->middleware('permission:service.create')
+                ->name('create');
+
+            Route::livewire('/{service}/edit', 'pages::service.form')
+                ->middleware('permission:service.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

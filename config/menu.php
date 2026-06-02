@@ -76,6 +76,15 @@ return [
                         'suppliers.*',
                     ],
                 ],
+                [
+                    'label' => 'Services',
+                    'icon' => 'squares-2x2',
+                    'route' => 'services.index',
+                    'permission' => 'service.view',
+                    'active' => [
+                        'services.*',
+                    ],
+                ],
             ],
         ],
 

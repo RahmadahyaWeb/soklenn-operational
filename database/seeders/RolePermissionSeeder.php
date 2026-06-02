@@ -48,6 +48,11 @@ class RolePermissionSeeder extends Seeder
                 'supplier.create',
                 'supplier.update',
                 'supplier.delete',
+
+                'service.view',
+                'service.create',
+                'service.update',
+                'service.delete',
             ];
 
             foreach ($permissions as $perm) {

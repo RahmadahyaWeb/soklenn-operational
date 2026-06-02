@@ -43,6 +43,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:user.update')
                 ->name('edit');
         });
+
+    // CATEGORY MANAGEMENT
+    Route::prefix('categories')
+        ->name('categories.')
+        ->middleware(['permission:category.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::category.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::category.form')
+                ->middleware('permission:category.create')
+                ->name('create');
+
+            Route::livewire('/{category}/edit', 'pages::category.form')
+                ->middleware('permission:category.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

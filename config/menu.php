@@ -46,6 +46,21 @@ return [
             ],
         ],
 
+        [
+            'heading' => 'Inventory Management',
+            'items' => [
+                [
+                    'label' => 'Categories',
+                    'icon' => 'squares-2x2',
+                    'route' => 'categories.index',
+                    'permission' => 'category.view',
+                    'active' => [
+                        'categories.*',
+                    ],
+                ],
+            ],
+        ],
+
     ],
 
 ];

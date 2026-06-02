@@ -58,6 +58,15 @@ return [
                         'categories.*',
                     ],
                 ],
+                [
+                    'label' => 'Items',
+                    'icon' => 'squares-2x2',
+                    'route' => 'items.index',
+                    'permission' => 'item.view',
+                    'active' => [
+                        'items.*',
+                    ],
+                ],
             ],
         ],
 

@@ -61,6 +61,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:category.update')
                 ->name('edit');
         });
+
+    // ITEM MANAGEMENT
+    Route::prefix('items')
+        ->name('items.')
+        ->middleware(['permission:item.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::item.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::item.form')
+                ->middleware('permission:item.create')
+                ->name('create');
+
+            Route::livewire('/{item}/edit', 'pages::item.form')
+                ->middleware('permission:item.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

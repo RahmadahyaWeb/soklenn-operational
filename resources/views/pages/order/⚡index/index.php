@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Income;
+use App\Models\IncomeCategory;
 use App\Models\Order;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
@@ -31,6 +33,7 @@ new #[Title('Orders')] class extends Component
         return Order::with([
             'customer',
             'details.service',
+            'income',
         ])
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
@@ -81,21 +84,59 @@ new #[Title('Orders')] class extends Component
 
     public function updateStatus(int $id, string $status)
     {
-        $order = Order::findOrFail($id);
+        return $this->transaction(function () use ($id, $status) {
 
-        $this->authorizeUpdate($order);
+            $order = Order::with('income')->findOrFail($id);
 
-        $order->update([
-            'status' => $status,
-        ]);
+            $this->authorizeUpdate($order);
 
-        unset($this->orders);
+            if ($order->status === 'picked_up') {
 
-        Flux::toast(
-            heading: 'Success',
-            text: 'Order status updated successfully',
-            variant: 'success'
-        );
+                Flux::toast(
+                    heading: 'Warning',
+                    text: 'Picked up orders cannot be updated',
+                    variant: 'warning'
+                );
+
+                return;
+            }
+
+            $order->update([
+                'status' => $status,
+            ]);
+
+            if (
+                $status === 'picked_up'
+                && ! $order->income
+            ) {
+
+                $category = IncomeCategory::where('name', 'Order Income')
+                    ->first();
+
+                if ($category) {
+
+                    Income::create([
+                        'income_category_id' => $category->id,
+                        'order_id' => $order->id,
+                        'transaction_date' => now(),
+                        'amount' => $order->grand_total,
+                        'title' => 'Income from Order '.$order->invoice_number,
+                        'description' => null,
+                    ]);
+
+                }
+
+            }
+
+            unset($this->orders);
+
+            Flux::toast(
+                heading: 'Success',
+                text: 'Order status updated successfully',
+                variant: 'success'
+            );
+
+        });
     }
 
     public function statusBadgeColor(string $status): string

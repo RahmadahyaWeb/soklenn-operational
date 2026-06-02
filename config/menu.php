@@ -103,6 +103,24 @@ return [
                         'orders.*',
                     ],
                 ],
+                [
+                    'label' => 'Incomes',
+                    'icon' => 'squares-2x2',
+                    'route' => 'incomes.index',
+                    'permission' => 'income.view',
+                    'active' => [
+                        'incomes.*',
+                    ],
+                ],
+                [
+                    'label' => 'Expense Categories',
+                    'icon' => 'squares-2x2',
+                    'route' => 'expense-categories.index',
+                    'permission' => 'expense-category.view',
+                    'active' => [
+                        'expense-categories.*',
+                    ],
+                ],
             ],
         ],
 

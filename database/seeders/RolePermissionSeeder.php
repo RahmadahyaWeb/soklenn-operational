@@ -63,6 +63,16 @@ class RolePermissionSeeder extends Seeder
                 'order.create',
                 'order.update',
                 'order.delete',
+
+                'income.view',
+                'income.create',
+                'income.update',
+                'income.delete',
+
+                'expense-category.view',
+                'expense-category.create',
+                'expense-category.update',
+                'expense-category.delete',
             ];
 
             foreach ($permissions as $perm) {

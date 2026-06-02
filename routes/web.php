@@ -151,6 +151,42 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:order.update')
                 ->name('edit');
         });
+
+    // INCOME MANAGEMENT
+    Route::prefix('incomes')
+        ->name('incomes.')
+        ->middleware(['permission:income.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::income.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::income.form')
+                ->middleware('permission:income.create')
+                ->name('create');
+
+            Route::livewire('/{income}/edit', 'pages::income.form')
+                ->middleware('permission:income.update')
+                ->name('edit');
+        });
+
+    // EXPENSE CATEGORY MANAGEMENT
+    Route::prefix('expense-categories')
+        ->name('expense-categories.')
+        ->middleware(['permission:expense-category.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::expense-category.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::expense-category.form')
+                ->middleware('permission:expense-category.create')
+                ->name('create');
+
+            Route::livewire('/{expenseCategory}/edit', 'pages::expense-category.form')
+                ->middleware('permission:expense-category.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

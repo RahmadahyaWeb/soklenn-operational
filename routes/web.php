@@ -79,6 +79,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:item.update')
                 ->name('edit');
         });
+
+    // SUPPLIER MANAGEMENT
+    Route::prefix('suppliers')
+        ->name('suppliers.')
+        ->middleware(['permission:supplier.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::supplier.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::supplier.form')
+                ->middleware('permission:supplier.create')
+                ->name('create');
+
+            Route::livewire('/{supplier}/edit', 'pages::supplier.form')
+                ->middleware('permission:supplier.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

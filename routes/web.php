@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::livewire('dashboard', 'pages::dashboard.index')
+        ->name('dashboard');
 
     // ROLES & PERMISSIONS
     Route::prefix('roles')
@@ -221,6 +222,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::livewire('/{itemPurchase}/edit', 'pages::item-purchase.form')
                 ->middleware('permission:item-purchase.update')
+                ->name('edit');
+        });
+
+    // STOCK ADJUSTMENT MANAGEMENT
+    Route::prefix('stock-adjustments')
+        ->name('stock-adjustments.')
+        ->middleware(['permission:stock-adjustment.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::stock-adjustment.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::stock-adjustment.form')
+                ->middleware('permission:stock-adjustment.create')
+                ->name('create');
+
+            Route::livewire('/{stockAdjustment}/edit', 'pages::stock-adjustment.form')
+                ->middleware('permission:stock-adjustment.update')
                 ->name('edit');
         });
 });

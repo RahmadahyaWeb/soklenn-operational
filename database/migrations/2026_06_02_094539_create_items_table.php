@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('unit')->nullable();
             $table->integer('stock')->default(0);
+            $table->integer('minimum_stock')->default(0);
             $table->decimal('buy_price', 15, 2)->default(0);
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);

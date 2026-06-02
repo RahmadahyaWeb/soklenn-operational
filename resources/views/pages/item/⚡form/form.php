@@ -20,7 +20,7 @@ new class extends Component
 
     public $unit;
 
-    public $stock = 0;
+    public $minimum_stock = 0;
 
     public $buy_price = 0;
 
@@ -39,7 +39,7 @@ new class extends Component
             $this->category_id = $item->category_id;
             $this->name = $item->name;
             $this->unit = $item->unit;
-            $this->stock = $item->stock;
+            $this->minimum_stock = $item->minimum_stock;
             $this->buy_price = $item->buy_price;
             $this->description = $item->description;
             $this->is_active = $item->is_active;
@@ -80,7 +80,7 @@ new class extends Component
                 'max:100',
             ],
 
-            'stock' => [
+            'minimum_stock' => [
                 'required',
                 'integer',
                 'min:0',
@@ -109,7 +109,7 @@ new class extends Component
                 'category_id' => $this->category_id,
                 'name' => $this->name,
                 'unit' => $this->unit,
-                'stock' => $this->stock,
+                'minimum_stock' => $this->minimum_stock,
                 'buy_price' => $this->buy_price,
                 'description' => $this->description,
                 'is_active' => $this->is_active,
@@ -131,7 +131,10 @@ new class extends Component
 
                 $this->authorizeStore(Item::class);
 
-                Item::create($data);
+                Item::create([
+                    ...$data,
+                    'stock' => 0,
+                ]);
 
                 Flux::toast(
                     heading: 'Success',

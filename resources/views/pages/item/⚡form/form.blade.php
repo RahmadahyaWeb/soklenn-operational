@@ -47,11 +47,21 @@
                 </flux:field>
 
                 <flux:field>
-                    <flux:label>Stock</flux:label>
+                    <flux:label>Minimum Stock</flux:label>
 
-                    <flux:input wire:model="stock" type="number" min="0" />
+                    <flux:input wire:model="minimum_stock" type="number" min="0" />
 
-                    <flux:error name="stock" />
+                    <flux:error name="minimum_stock" />
+                </flux:field>
+
+                <flux:field>
+                    <flux:label>Current Stock</flux:label>
+
+                    <flux:input :value="$item?->stock ?? 0" type="number" readonly />
+
+                    <flux:description>
+                        Stock can only be updated through purchases or stock adjustments.
+                    </flux:description>
                 </flux:field>
 
                 <flux:field>

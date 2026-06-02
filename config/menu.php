@@ -7,12 +7,14 @@ return [
         [
             'heading' => 'Platform',
             'items' => [
+
                 [
                     'label' => 'Dashboard',
                     'icon' => 'home',
                     'route' => 'dashboard',
                     'permission' => null,
                 ],
+
             ],
         ],
 
@@ -74,6 +76,16 @@ return [
                     'permission' => 'item.view',
                     'active' => [
                         'items.*',
+                    ],
+                ],
+
+                [
+                    'label' => 'Stock Adjustments',
+                    'icon' => 'arrows-right-left',
+                    'route' => 'stock-adjustments.index',
+                    'permission' => 'stock-adjustment.view',
+                    'active' => [
+                        'stock-adjustments.*',
                     ],
                 ],
 

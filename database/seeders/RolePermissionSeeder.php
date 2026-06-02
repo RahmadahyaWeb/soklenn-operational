@@ -83,6 +83,11 @@ class RolePermissionSeeder extends Seeder
                 'item-purchase.create',
                 'item-purchase.update',
                 'item-purchase.delete',
+
+                'stock-adjustment.view',
+                'stock-adjustment.create',
+                'stock-adjustment.update',
+                'stock-adjustment.delete',
             ];
 
             foreach ($permissions as $perm) {

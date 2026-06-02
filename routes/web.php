@@ -115,6 +115,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:service.update')
                 ->name('edit');
         });
+
+    // CUSTOMER MANAGEMENT
+    Route::prefix('customers')
+        ->name('customers.')
+        ->middleware(['permission:customer.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::customer.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::customer.form')
+                ->middleware('permission:customer.create')
+                ->name('create');
+
+            Route::livewire('/{customer}/edit', 'pages::customer.form')
+                ->middleware('permission:customer.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

@@ -85,6 +85,15 @@ return [
                         'services.*',
                     ],
                 ],
+                [
+                    'label' => 'Customers',
+                    'icon' => 'squares-2x2',
+                    'route' => 'customers.index',
+                    'permission' => 'customer.view',
+                    'active' => [
+                        'customers.*',
+                    ],
+                ],
             ],
         ],
 

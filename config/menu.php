@@ -17,38 +17,46 @@ return [
         ],
 
         [
-            'heading' => 'Access Control',
+            'heading' => 'Operations',
             'items' => [
+
                 [
-                    'label' => 'Roles & Permissions',
-                    'icon' => 'shield-check',
-                    'route' => 'roles.index',
-                    'permission' => 'role.view',
+                    'label' => 'Orders',
+                    'icon' => 'clipboard-document-list',
+                    'route' => 'orders.index',
+                    'permission' => 'order.view',
                     'active' => [
-                        'roles.*', // wildcard
+                        'orders.*',
                     ],
                 ],
-            ],
-        ],
 
-        [
-            'heading' => 'User Management',
-            'items' => [
                 [
-                    'label' => 'Users',
+                    'label' => 'Customers',
                     'icon' => 'users',
-                    'route' => 'users.index',
-                    'permission' => 'user.view',
+                    'route' => 'customers.index',
+                    'permission' => 'customer.view',
                     'active' => [
-                        'users.*', // wildcard
+                        'customers.*',
                     ],
                 ],
+
+                [
+                    'label' => 'Services',
+                    'icon' => 'sparkles',
+                    'route' => 'services.index',
+                    'permission' => 'service.view',
+                    'active' => [
+                        'services.*',
+                    ],
+                ],
+
             ],
         ],
 
         [
-            'heading' => 'Inventory Management',
+            'heading' => 'Inventory',
             'items' => [
+
                 [
                     'label' => 'Categories',
                     'icon' => 'squares-2x2',
@@ -58,69 +66,101 @@ return [
                         'categories.*',
                     ],
                 ],
+
                 [
                     'label' => 'Items',
-                    'icon' => 'squares-2x2',
+                    'icon' => 'archive-box',
                     'route' => 'items.index',
                     'permission' => 'item.view',
                     'active' => [
                         'items.*',
                     ],
                 ],
+
                 [
                     'label' => 'Suppliers',
-                    'icon' => 'squares-2x2',
+                    'icon' => 'truck',
                     'route' => 'suppliers.index',
                     'permission' => 'supplier.view',
                     'active' => [
                         'suppliers.*',
                     ],
                 ],
+
                 [
-                    'label' => 'Services',
-                    'icon' => 'squares-2x2',
-                    'route' => 'services.index',
-                    'permission' => 'service.view',
+                    'label' => 'Item Purchases',
+                    'icon' => 'shopping-cart',
+                    'route' => 'item-purchases.index',
+                    'permission' => 'item-purchase.view',
                     'active' => [
-                        'services.*',
+                        'item-purchases.*',
                     ],
                 ],
-                [
-                    'label' => 'Customers',
-                    'icon' => 'squares-2x2',
-                    'route' => 'customers.index',
-                    'permission' => 'customer.view',
-                    'active' => [
-                        'customers.*',
-                    ],
-                ],
-                [
-                    'label' => 'Orders',
-                    'icon' => 'squares-2x2',
-                    'route' => 'orders.index',
-                    'permission' => 'order.view',
-                    'active' => [
-                        'orders.*',
-                    ],
-                ],
+
+            ],
+        ],
+
+        [
+            'heading' => 'Finance',
+            'items' => [
+
                 [
                     'label' => 'Incomes',
-                    'icon' => 'squares-2x2',
+                    'icon' => 'arrow-trending-up',
                     'route' => 'incomes.index',
                     'permission' => 'income.view',
                     'active' => [
                         'incomes.*',
                     ],
                 ],
+
                 [
                     'label' => 'Expense Categories',
-                    'icon' => 'squares-2x2',
+                    'icon' => 'tag',
                     'route' => 'expense-categories.index',
                     'permission' => 'expense-category.view',
                     'active' => [
                         'expense-categories.*',
                     ],
                 ],
+
+                [
+                    'label' => 'Expenses',
+                    'icon' => 'arrow-trending-down',
+                    'route' => 'expenses.index',
+                    'permission' => 'expense.view',
+                    'active' => [
+                        'expenses.*',
+                    ],
+                ],
+
+            ],
+        ],
+
+        [
+            'heading' => 'Administration',
+            'items' => [
+
+                [
+                    'label' => 'Users',
+                    'icon' => 'user-group',
+                    'route' => 'users.index',
+                    'permission' => 'user.view',
+                    'active' => [
+                        'users.*',
+                    ],
+                ],
+
+                [
+                    'label' => 'Roles & Permissions',
+                    'icon' => 'shield-check',
+                    'route' => 'roles.index',
+                    'permission' => 'role.view',
+                    'active' => [
+                        'roles.*',
+                    ],
+                ],
+
             ],
         ],
 

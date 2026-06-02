@@ -73,6 +73,16 @@ class RolePermissionSeeder extends Seeder
                 'expense-category.create',
                 'expense-category.update',
                 'expense-category.delete',
+
+                'expense.view',
+                'expense.create',
+                'expense.update',
+                'expense.delete',
+
+                'item-purchase.view',
+                'item-purchase.create',
+                'item-purchase.update',
+                'item-purchase.delete',
             ];
 
             foreach ($permissions as $perm) {

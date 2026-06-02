@@ -94,6 +94,15 @@ return [
                         'customers.*',
                     ],
                 ],
+                [
+                    'label' => 'Orders',
+                    'icon' => 'squares-2x2',
+                    'route' => 'orders.index',
+                    'permission' => 'order.view',
+                    'active' => [
+                        'orders.*',
+                    ],
+                ],
             ],
         ],
 

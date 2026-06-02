@@ -58,6 +58,11 @@ class RolePermissionSeeder extends Seeder
                 'customer.create',
                 'customer.update',
                 'customer.delete',
+
+                'order.view',
+                'order.create',
+                'order.update',
+                'order.delete',
             ];
 
             foreach ($permissions as $perm) {

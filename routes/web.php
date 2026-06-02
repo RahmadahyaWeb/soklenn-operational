@@ -133,6 +133,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->middleware('permission:customer.update')
                 ->name('edit');
         });
+
+    // ORDER MANAGEMENT
+    Route::prefix('orders')
+        ->name('orders.')
+        ->middleware(['permission:order.view'])
+        ->group(function () {
+
+            Route::livewire('/', 'pages::order.index')
+                ->name('index');
+
+            Route::livewire('/create', 'pages::order.form')
+                ->middleware('permission:order.create')
+                ->name('create');
+
+            Route::livewire('/{order}/edit', 'pages::order.form')
+                ->middleware('permission:order.update')
+                ->name('edit');
+        });
 });
 
 require __DIR__.'/settings.php';

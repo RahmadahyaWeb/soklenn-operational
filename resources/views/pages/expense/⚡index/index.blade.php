@@ -112,14 +112,13 @@
                         </flux:table.cell>
 
                         <flux:table.cell align="end">
+                            @if (!$expense->item_purchase_id)
+                                <flux:dropdown>
 
-                            <flux:dropdown>
+                                    <flux:button variant="ghost" size="sm" icon:trailing="ellipsis-horizontal" />
 
-                                <flux:button variant="ghost" size="sm" icon:trailing="ellipsis-horizontal" />
+                                    <flux:menu>
 
-                                <flux:menu>
-
-                                    @if (!$expense->item_purchase_id)
                                         <flux:menu.item icon="pencil" href="{{ route('expenses.edit', $expense) }}">
                                             Edit
                                         </flux:menu.item>
@@ -130,11 +129,11 @@
                                             wire:click="confirmDelete({{ $expense->id }})">
                                             Delete
                                         </flux:menu.item>
-                                    @endif
 
-                                </flux:menu>
+                                    </flux:menu>
 
-                            </flux:dropdown>
+                                </flux:dropdown>
+                            @endif
 
                         </flux:table.cell>
 

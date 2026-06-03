@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
@@ -16,17 +17,69 @@ new #[Title('Items')] class extends Component
 
     public $deleteId;
 
+    public $search = '';
+
+    public $category = '';
+
+    public $status = '';
+
     public function mount()
     {
         $this->authorizeIndex(Item::class);
     }
 
     #[Computed()]
+    public function categories()
+    {
+        return Category::orderBy('name')->get();
+    }
+
+    #[Computed()]
     public function items()
     {
-        return Item::with('category')
+        return Item::query()
+            ->with('category')
+
+            ->when($this->search, function ($query) {
+
+                $query->where(function ($q) {
+
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('unit', 'like', '%'.$this->search.'%');
+
+                });
+
+            })
+
+            ->when($this->category, function ($query) {
+
+                $query->where('category_id', $this->category);
+
+            })
+
+            ->when($this->status !== '', function ($query) {
+
+                $query->where('is_active', $this->status);
+
+            })
+
             ->latest()
             ->paginate(10);
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedCategory()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedStatus()
+    {
+        $this->resetPage();
     }
 
     public function confirmDelete(int $id): void

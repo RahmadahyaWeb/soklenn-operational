@@ -26,7 +26,7 @@
 
     <flux:card class="space-y-6">
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
             <flux:field>
                 <flux:label>Supplier</flux:label>
@@ -65,6 +65,26 @@
             </flux:field>
 
             <flux:field>
+                <flux:label>Status</flux:label>
+
+                <flux:select wire:model.live="status">
+
+                    <flux:select.option value="">
+                        All Status
+                    </flux:select.option>
+
+                    <flux:select.option value="1">
+                        Approved
+                    </flux:select.option>
+
+                    <flux:select.option value="0">
+                        Pending
+                    </flux:select.option>
+
+                </flux:select>
+            </flux:field>
+
+            <flux:field>
                 <flux:label>Start Date</flux:label>
 
                 <flux:input wire:model.live="start_date" type="date" />
@@ -84,6 +104,7 @@
                 <flux:table.column>Date</flux:table.column>
                 <flux:table.column>Supplier</flux:table.column>
                 <flux:table.column>Item</flux:table.column>
+                <flux:table.column>Status</flux:table.column>
                 <flux:table.column>Qty</flux:table.column>
                 <flux:table.column>Price</flux:table.column>
                 <flux:table.column>Total</flux:table.column>
@@ -108,6 +129,20 @@
                         </flux:table.cell>
 
                         <flux:table.cell>
+
+                            @if ($itemPurchase->is_approved)
+                                <flux:badge color="green">
+                                    Approved
+                                </flux:badge>
+                            @else
+                                <flux:badge color="yellow">
+                                    Pending
+                                </flux:badge>
+                            @endif
+
+                        </flux:table.cell>
+
+                        <flux:table.cell>
                             {{ $itemPurchase->qty }}
                         </flux:table.cell>
 
@@ -127,17 +162,29 @@
 
                                 <flux:menu>
 
-                                    <flux:menu.item icon="pencil"
-                                        href="{{ route('item-purchases.edit', $itemPurchase) }}">
-                                        Edit
-                                    </flux:menu.item>
+                                    @unless ($itemPurchase->is_approved)
+                                        <flux:menu.item icon="check" wire:click="approve({{ $itemPurchase->id }})">
+                                            Approve
+                                        </flux:menu.item>
 
-                                    <flux:menu.separator />
+                                        <flux:menu.separator />
 
-                                    <flux:menu.item icon="trash" variant="danger"
-                                        wire:click="confirmDelete({{ $itemPurchase->id }})">
-                                        Delete
-                                    </flux:menu.item>
+                                        <flux:menu.item icon="pencil"
+                                            href="{{ route('item-purchases.edit', $itemPurchase) }}">
+                                            Edit
+                                        </flux:menu.item>
+
+                                        <flux:menu.separator />
+
+                                        <flux:menu.item icon="trash" variant="danger"
+                                            wire:click="confirmDelete({{ $itemPurchase->id }})">
+                                            Delete
+                                        </flux:menu.item>
+                                    @else
+                                        <flux:menu.item disabled icon="lock-closed">
+                                            Approved Purchase
+                                        </flux:menu.item>
+                                    @endunless
 
                                 </flux:menu>
 
@@ -151,7 +198,7 @@
 
                     <flux:table.row>
 
-                        <flux:table.cell colspan="7" class="text-center">
+                        <flux:table.cell colspan="8" class="text-center">
                             No item purchases found.
                         </flux:table.cell>
 

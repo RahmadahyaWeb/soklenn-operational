@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Expense;
-use App\Models\ExpenseCategory;
 use App\Models\Item;
 use App\Models\ItemPurchase;
 use App\Models\Supplier;
@@ -36,6 +34,12 @@ new class extends Component
         if ($itemPurchase && $itemPurchase->exists) {
 
             $this->authorizeUpdate($itemPurchase);
+
+            abort_if(
+                $itemPurchase->is_approved,
+                403,
+                'Approved purchase cannot be edited.'
+            );
 
             $this->itemPurchase = $itemPurchase;
 
@@ -124,8 +128,6 @@ new class extends Component
 
         return $this->transaction(function () {
 
-            $item = Item::findOrFail($this->item_id);
-
             $data = [
                 'supplier_id' => $this->supplier_id,
                 'purchase_date' => $this->purchase_date,
@@ -140,24 +142,18 @@ new class extends Component
 
                 $this->authorizeUpdate($this->itemPurchase);
 
-                $oldQty = $this->itemPurchase->qty;
+                abort_if(
+                    $this->itemPurchase->is_approved,
+                    403,
+                    'Approved purchase cannot be edited.'
+                );
 
-                $this->itemPurchase->update($data);
-
-                $difference = $this->qty - $oldQty;
-
-                $item->increment('stock', $difference);
-
-                if ($this->itemPurchase->expense) {
-
-                    $this->itemPurchase->expense->update([
-                        'transaction_date' => $this->purchase_date,
-                        'amount' => $this->total,
-                        'title' => 'Purchase - '.$item->name,
-                        'description' => $this->note,
-                    ]);
-
-                }
+                $this->itemPurchase->update([
+                    ...$data,
+                    'is_approved' => false,
+                    'approved_by' => null,
+                    'approved_at' => null,
+                ]);
 
                 Flux::toast(
                     heading: 'Success',
@@ -169,25 +165,10 @@ new class extends Component
 
                 $this->authorizeStore(ItemPurchase::class);
 
-                $purchase = ItemPurchase::create($data);
-
-                $item->increment('stock', $this->qty);
-
-                $expenseCategory = ExpenseCategory::where('name', 'Operational')
-                    ->first();
-
-                if ($expenseCategory) {
-
-                    Expense::create([
-                        'expense_category_id' => $expenseCategory->id,
-                        'item_purchase_id' => $purchase->id,
-                        'transaction_date' => $this->purchase_date,
-                        'amount' => $this->total,
-                        'title' => 'Purchase - '.$item->name,
-                        'description' => $this->note,
-                    ]);
-
-                }
+                ItemPurchase::create([
+                    ...$data,
+                    'is_approved' => false,
+                ]);
 
                 Flux::toast(
                     heading: 'Success',
@@ -198,6 +179,31 @@ new class extends Component
             }
 
             $this->redirect(route('item-purchases.index'), navigate: true);
+
+        });
+    }
+
+    public function delete(ItemPurchase $itemPurchase)
+    {
+        $this->authorizeDelete($itemPurchase);
+
+        abort_if(
+            $itemPurchase->is_approved,
+            403,
+            'Approved purchase cannot be deleted.'
+        );
+
+        return $this->transaction(function () use ($itemPurchase) {
+
+            $itemPurchase->expense()?->delete();
+
+            $itemPurchase->delete();
+
+            Flux::toast(
+                heading: 'Success',
+                text: 'Item purchase deleted successfully',
+                variant: 'success'
+            );
 
         });
     }

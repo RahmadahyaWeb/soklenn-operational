@@ -14,6 +14,9 @@ class ItemPurchase extends Model
         'price',
         'total',
         'note',
+        'is_approved',
+        'approved_by',
+        'approved_at',
     ];
 
     protected $casts = [

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\Item;
 use App\Models\ItemPurchase;
 use App\Models\Supplier;
@@ -22,6 +24,8 @@ new #[Title('Item Purchases')] class extends Component
 
     public $item_id = '';
 
+    public $status = '0';
+
     public $start_date = '';
 
     public $end_date = '';
@@ -43,6 +47,14 @@ new #[Title('Item Purchases')] class extends Component
             })
             ->when($this->item_id, function ($query) {
                 $query->where('item_id', $this->item_id);
+            })
+            ->when($this->status !== '', function ($query) {
+
+                $query->where(
+                    'is_approved',
+                    (bool) $this->status
+                );
+
             })
             ->when($this->start_date, function ($query) {
                 $query->whereDate('purchase_date', '>=', $this->start_date);
@@ -75,6 +87,14 @@ new #[Title('Item Purchases')] class extends Component
             ->when($this->item_id, function ($query) {
                 $query->where('item_id', $this->item_id);
             })
+            ->when($this->status !== '', function ($query) {
+
+                $query->where(
+                    'is_approved',
+                    (bool) $this->status
+                );
+
+            })
             ->when($this->start_date, function ($query) {
                 $query->whereDate('purchase_date', '>=', $this->start_date);
             })
@@ -90,6 +110,12 @@ new #[Title('Item Purchases')] class extends Component
 
         $this->authorizeDelete($itemPurchase);
 
+        abort_if(
+            $itemPurchase->is_approved,
+            403,
+            'Approved purchase cannot be deleted.'
+        );
+
         $this->deleteId = $id;
 
         $this->modal('delete-item-purchase')->show();
@@ -99,14 +125,14 @@ new #[Title('Item Purchases')] class extends Component
     {
         $this->transaction(function () {
 
-            $itemPurchase = ItemPurchase::with('item')
-                ->findOrFail($this->deleteId);
+            $itemPurchase = ItemPurchase::findOrFail($this->deleteId);
 
             $this->authorizeDelete($itemPurchase);
 
-            $itemPurchase->item->decrement(
-                'stock',
-                $itemPurchase->qty
+            abort_if(
+                $itemPurchase->is_approved,
+                403,
+                'Approved purchase cannot be deleted.'
             );
 
             if ($itemPurchase->expense) {
@@ -122,6 +148,56 @@ new #[Title('Item Purchases')] class extends Component
             );
 
             $this->modal('delete-item-purchase')->close();
+
+        });
+    }
+
+    public function approve(int $id)
+    {
+        return $this->transaction(function () use ($id) {
+
+            $itemPurchase = ItemPurchase::with([
+                'item',
+            ])->findOrFail($id);
+
+            if ($itemPurchase->is_approved) {
+                return;
+            }
+
+            $itemPurchase->item->increment(
+                'stock',
+                $itemPurchase->qty
+            );
+
+            $expenseCategory = ExpenseCategory::where('name', 'Item Purchases')
+                ->first();
+
+            if ($expenseCategory) {
+
+                Expense::create([
+                    'expense_category_id' => $expenseCategory->id,
+                    'item_purchase_id' => $itemPurchase->id,
+                    'transaction_date' => $itemPurchase->purchase_date,
+                    'amount' => $itemPurchase->total,
+                    'title' => 'Purchase - '.$itemPurchase->item->name,
+                    'description' => $itemPurchase->note,
+                ]);
+
+            }
+
+            $itemPurchase->update([
+                'is_approved' => true,
+                'approved_by' => auth()->id(),
+                'approved_at' => now(),
+            ]);
+
+            $itemPurchase->refresh();
+
+            Flux::toast(
+                heading: 'Success',
+                text: 'Item purchase approved successfully',
+                variant: 'success'
+            );
 
         });
     }

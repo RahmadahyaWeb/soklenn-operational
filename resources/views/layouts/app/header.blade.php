@@ -6,7 +6,50 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Soklenn</title>
+    <title>Cuci Sepatu Banjarbaru | Soklenn - Jasa Perawatan Sepatu Profesional</title>
+
+    <meta name="description"
+        content="Soklenn adalah jasa cuci sepatu profesional di Banjarbaru. Melayani Fast Clean, Deep Clean, dan Pick Up & Delivery untuk menjaga sepatu tetap bersih, fresh, dan nyaman digunakan.">
+
+    <meta name="keywords"
+        content="cuci sepatu banjarbaru, laundry sepatu banjarbaru, jasa cuci sepatu banjarbaru, shoe cleaning banjarbaru, deep clean sepatu, fast clean sepatu, perawatan sepatu banjarbaru">
+
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Cuci Sepatu Banjarbaru | Soklenn">
+    <meta property="og:description"
+        content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan Pick Up & Delivery.">
+    <meta property="og:image" content="{{ asset('logo-soklenn-putih.png') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cuci Sepatu Banjarbaru | Soklenn">
+    <meta name="twitter:description"
+        content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan Pick Up & Delivery.">
+
+    <script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'LocalBusiness',
+    'name' => 'Soklenn',
+    'description' => 'Jasa cuci sepatu profesional di Banjarbaru',
+    'image' => asset('logo-soklenn-putih.png'),
+    'address' => [
+        '@type' => 'PostalAddress',
+        'addressLocality' => 'Banjarbaru',
+        'addressRegion' => 'Kalimantan Selatan',
+        'addressCountry' => 'ID',
+    ],
+    'areaServed' => 'Banjarbaru',
+    'serviceType' => [
+        'Cuci Sepatu',
+        'Deep Clean',
+        'Fast Clean',
+        'Pick Up & Delivery',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -74,7 +117,7 @@
                                 class="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-4 py-2 backdrop-blur">
 
                                 <span class="text-xs sm:text-sm font-medium">
-                                    Premium Sneaker Cleaning & Restoration
+                                    Jasa Cuci Sepatu Profesional Banjarbaru
                                 </span>
 
                             </div>
@@ -89,12 +132,10 @@
                                 </h1>
 
                                 <p class="max-w-xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/75">
-
-                                    SSepatu kotor, kusam, menguning, atau penuh noda?
-                                    Soklenn hadir dengan layanan perawatan sepatu profesional untuk membantu menjaga
-                                    sepatu tetap bersih, fresh, nyaman digunakan, dan siap menunjang aktivitas setiap
-                                    hari.
-
+                                    Sepatu kotor, kusam, menguning, atau penuh noda? Soklenn hadir sebagai jasa cuci
+                                    sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan
+                                    Pick Up & Delivery untuk membantu menjaga sepatu tetap bersih, fresh, nyaman
+                                    digunakan, dan siap menunjang aktivitas sehari-hari.
                                 </p>
 
                             </div>
@@ -170,7 +211,8 @@
                             <div
                                 class="relative w-full max-w-[520px] overflow-hidden rounded-[30px] md:rounded-[40px] border border-white/10 shadow-2xl bg-white flex items-center justify-center p-10 md:p-16">
 
-                                <img src="{{ asset('logo-soklenn-putih.png') }}" alt="Soklenn"
+                                <img src="{{ asset('logo-soklenn-putih.png') }}"
+                                    alt="Soklenn Jasa Cuci Sepatu Profesional Banjarbaru"
                                     class="w-full max-w-[320px] object-contain">
 
                             </div>
@@ -202,8 +244,8 @@
 
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
 
-                        Perawatan Sepatu
-                        Dengan Hasil Maksimal
+                        Layanan Cuci Sepatu
+                        Profesional Banjarbaru
 
                     </h2>
 
@@ -357,9 +399,8 @@
 
                         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
 
-                            Bukan Sekadar Bersih,
-                            Tapi Lebih Fresh
-                            dan Lebih Percaya Diri.
+                            Mengapa Memilih Soklenn
+                            Untuk Perawatan Sepatu Anda?
 
                         </h2>
 
@@ -431,8 +472,9 @@
 
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
 
-                        Sneakers Kotor?
-                        Serahkan ke Soklenn.
+                        Sepatu Kotor,
+                        Kusam, atau Menguning?
+                        Percayakan Pada Soklenn.
 
                     </h2>
 
@@ -465,6 +507,11 @@
         </div>
 
     </section>
+
+    <footer class="py-10 text-center text-sm text-zinc-500">
+        Soklenn - Jasa Cuci Sepatu Profesional Banjarbaru | Fast Clean, Deep Clean,
+        Pick Up & Delivery
+    </footer>
 
 </body>
 

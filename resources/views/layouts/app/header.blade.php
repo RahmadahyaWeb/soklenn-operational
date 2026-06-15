@@ -90,10 +90,10 @@
 
                                 <p class="max-w-xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/75">
 
-                                    Sepatu kusam, bau, menguning, atau penuh noda?
-                                    Soklenn hadir dengan treatment premium untuk
-                                    membuat sneakers favoritmu kembali bersih,
-                                    fresh, dan lebih percaya diri dipakai setiap hari.
+                                    SSepatu kotor, kusam, menguning, atau penuh noda?
+                                    Soklenn hadir dengan layanan perawatan sepatu profesional untuk membantu menjaga
+                                    sepatu tetap bersih, fresh, nyaman digunakan, dan siap menunjang aktivitas setiap
+                                    hari.
 
                                 </p>
 
@@ -211,9 +211,9 @@
 
                 <p class="max-w-xl text-sm sm:text-base text-zinc-600 leading-relaxed">
 
-                    Mulai dari deep clean, fast clean, hingga repaint,
-                    semua treatment dilakukan dengan detail dan produk premium
-                    agar sepatu tetap aman dan terlihat seperti baru.
+                    Mulai dari Fast Clean, Deep Clean, hingga layanan Pick Up & Delivery,
+                    setiap layanan dirancang untuk memberikan kemudahan dan hasil perawatan terbaik bagi sepatu
+                    kesayangan Anda.
 
                 </p>
 
@@ -240,14 +240,14 @@
                             </div>
 
                             <div class="rounded-full bg-[#0b3d2c] px-4 py-2 text-sm font-bold text-white">
-                                Rp50K
+                                40K
                             </div>
 
                         </div>
 
                         <p class="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                            Treatment menyeluruh untuk sepatu kotor,
-                            menguning, dan penuh noda membandel.
+                            Perawatan menyeluruh untuk mengangkat noda, debu, dan kotoran yang menempel hingga ke detail
+                            sepatu.
                         </p>
 
                     </div>
@@ -279,8 +279,8 @@
                         </div>
 
                         <p class="text-sm sm:text-base leading-relaxed text-white/70">
-                            Solusi cepat untuk sneakers harian agar tetap bersih,
-                            fresh, dan nyaman dipakai.
+                            Perawatan cepat untuk membersihkan kotoran ringan pada sepatu harian agar tetap bersih,
+                            fresh, dan nyaman digunakan.
                         </p>
 
                     </div>
@@ -302,20 +302,20 @@
                         <div class="flex items-center justify-between gap-4">
 
                             <div class="text-xl md:text-2xl font-black">
-                                Repaint
+                                Pick Up & Delivery
                             </div>
 
                             <div class="rounded-full bg-[#0b3d2c] px-4 py-2 text-sm font-bold text-white">
-                                Rp150K
+                                Gratis*
                             </div>
 
                         </div>
 
-                        <p class="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                            Kembalikan warna sepatu yang pudar agar tampil
-                            lebih clean dan premium.
-                        </p>
 
+                        <p class="text-sm sm:text-base text-zinc-600 leading-relaxed">
+                            Layanan antar jemput untuk memudahkan proses perawatan sepatu tanpa perlu datang langsung ke
+                            toko.
+                        </p>
                     </div>
 
                 </div>

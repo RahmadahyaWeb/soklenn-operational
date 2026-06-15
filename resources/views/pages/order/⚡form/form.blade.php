@@ -13,19 +13,27 @@
                 <flux:field>
                     <flux:label>Customer</flux:label>
 
-                    <flux:select wire:model="customer_id">
+                    <div class="flex gap-2">
 
-                        <flux:select.option value="">
-                            Walk In Customer
-                        </flux:select.option>
+                        <flux:select wire:model="customer_id" class="flex-1">
 
-                        @foreach ($this->customers as $customer)
-                            <flux:select.option :value="$customer->id">
-                                {{ $customer->name }}
+                            <flux:select.option value="">
+                                Walk In Customer
                             </flux:select.option>
-                        @endforeach
 
-                    </flux:select>
+                            @foreach ($this->customers as $customer)
+                                <flux:select.option :value="$customer->id">
+                                    {{ $customer->name }}
+                                </flux:select.option>
+                            @endforeach
+
+                        </flux:select>
+
+                        <flux:button type="button" variant="primary" wire:click="openCustomerModal">
+                            + Customer
+                        </flux:button>
+
+                    </div>
 
                     <flux:error name="customer_id" />
                 </flux:field>
@@ -259,5 +267,56 @@
         </flux:card>
 
     </form>
+
+    <flux:modal name="customer-create" class="md:w-[500px]">
+
+        <div class="space-y-6">
+
+            <div>
+                <flux:heading size="lg">
+                    Add Customer
+                </flux:heading>
+
+                <flux:text class="mt-2">
+                    Create a new customer without leaving this page.
+                </flux:text>
+            </div>
+
+            <div class="space-y-4">
+
+                <flux:field>
+                    <flux:label>Name</flux:label>
+
+                    <flux:input wire:model="customer_name" type="text" />
+
+                    <flux:error name="customer_name" />
+                </flux:field>
+
+                <flux:field>
+                    <flux:label>Phone</flux:label>
+
+                    <flux:input wire:model="customer_phone" type="text" />
+
+                    <flux:error name="customer_phone" />
+                </flux:field>
+
+            </div>
+
+            <div class="flex justify-end gap-2">
+
+                <flux:button type="button" variant="ghost"
+                    wire:click="$js(() => Flux.modal('customer-create').close())">
+                    Cancel
+                </flux:button>
+
+                <flux:button type="button" variant="primary" wire:click="createCustomer">
+                    Save Customer
+                </flux:button>
+
+            </div>
+
+        </div>
+
+    </flux:modal>
 
 </div>

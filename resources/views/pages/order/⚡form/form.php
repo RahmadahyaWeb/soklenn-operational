@@ -33,6 +33,10 @@ new class extends Component
 
     public $details = [];
 
+    public $customer_name;
+
+    public $customer_phone;
+
     public function mount(?Order $order = null)
     {
         if ($order && $order->exists) {
@@ -285,5 +289,47 @@ new class extends Component
             $this->redirect(route('orders.index'), navigate: true);
 
         });
+    }
+
+    public function openCustomerModal()
+    {
+        $this->reset([
+            'customer_name',
+            'customer_phone',
+        ]);
+
+        $this->modal('customer-create')->show();
+    }
+
+    public function createCustomer()
+    {
+        $this->validate([
+            'customer_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'customer_phone' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+        ]);
+
+        $customer = Customer::create([
+            'name' => $this->customer_name,
+            'phone' => $this->customer_phone,
+        ]);
+
+        $this->customer_id = $customer->id;
+
+        $this->modal('customer-create')->close();
+
+        Flux::toast(
+            heading: 'Success',
+            text: 'Customer created successfully',
+            variant: 'success'
+        );
     }
 };

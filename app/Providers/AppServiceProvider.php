@@ -31,9 +31,9 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(Role::class, RolePolicy::class);
 
-        if (config('app.env') === 'local') {
-            URL::forceScheme('https');
-        }
+        // if (config('app.env') === 'local') {
+        //     URL::forceScheme('https');
+        // }
     }
 
     /**

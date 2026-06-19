@@ -18,32 +18,46 @@
 
     <meta name="robots" content="index,follow">
 
+    <link rel="canonical" href="https://soklenn.store/">
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="Cuci Sepatu Banjarbaru | Soklenn">
     <meta property="og:description"
         content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan Pick Up & Delivery.">
     <meta property="og:image" content="{{ asset('logo-soklenn-putih.png') }}">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="https://soklenn.store/">
+    <meta property="og:site_name" content="Soklenn">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Cuci Sepatu Banjarbaru | Soklenn">
     <meta name="twitter:description"
         content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan Pick Up & Delivery.">
+    <meta name="twitter:image" content="{{ asset('logo-soklenn-putih.png') }}">
 
     <script type="application/ld+json">
 {!! json_encode([
     '@context' => 'https://schema.org',
     '@type' => 'LocalBusiness',
     'name' => 'Soklenn',
-    'description' => 'Jasa cuci sepatu profesional di Banjarbaru',
+    'url' => 'https://soklenn.store',
     'image' => asset('logo-soklenn-putih.png'),
+    'description' => 'Jasa cuci sepatu profesional di Banjarbaru',
+    'telephone' => '+628xxxxxxxxxx',
     'address' => [
         '@type' => 'PostalAddress',
+        'streetAddress' => 'ALAMAT LENGKAP TOKO',
         'addressLocality' => 'Banjarbaru',
         'addressRegion' => 'Kalimantan Selatan',
+        'postalCode' => '707xx',
         'addressCountry' => 'ID',
     ],
+    'geo' => [
+        '@type' => 'GeoCoordinates',
+        'latitude' => '-3.xxxxxx',
+        'longitude' => '114.xxxxxx',
+    ],
     'areaServed' => 'Banjarbaru',
+    'priceRange' => 'Rp30.000-Rp40.000',
     'serviceType' => [
         'Cuci Sepatu',
         'Deep Clean',
@@ -508,6 +522,39 @@
 
         </div>
 
+    </section>
+
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+
+            <h2 class="text-3xl font-black mb-8">
+                Pertanyaan yang Sering Diajukan
+            </h2>
+
+            <div class="space-y-6">
+
+                <div>
+                    <h3 class="font-bold">Berapa lama proses cuci sepatu?</h3>
+                    <p>Proses normal 1-3 hari tergantung kondisi sepatu.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold">Apakah tersedia layanan antar jemput?</h3>
+                    <p>Ya, tersedia layanan Pick Up & Delivery untuk area tertentu di Banjarbaru.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold">Berapa harga Deep Clean?</h3>
+                    <p>Mulai dari Rp40.000 per pasang.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold">Apakah bisa membersihkan sepatu putih menguning?</h3>
+                    <p>Bisa. Kami menyediakan treatment sesuai kondisi material sepatu.</p>
+                </div>
+
+            </div>
+        </div>
     </section>
 
     <footer class="py-10 text-center text-sm text-zinc-500">

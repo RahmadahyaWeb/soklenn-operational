@@ -6,6 +6,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta name="google-site-verification" content="1BEkuzNKDpyqUFZGbXm5TElOBVnfjVc2cvTO1Qf7lEo" />
+
     <title>Cuci Sepatu Banjarbaru | Soklenn - Jasa Perawatan Sepatu Profesional</title>
 
     <meta name="description"

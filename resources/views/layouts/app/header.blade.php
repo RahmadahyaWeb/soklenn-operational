@@ -34,6 +34,9 @@
         content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Fast Clean, Deep Clean, dan Pick Up & Delivery.">
     <meta name="twitter:image" content="{{ asset('logo-soklenn-putih.png') }}">
 
+    <link rel="icon" href="/logo-soklenn-bg.png" sizes="any">
+    <link rel="icon" href="/logo-soklenn-bg.png" type="image/svg+xml">
+
     <script type="application/ld+json">
 {!! json_encode([
     '@context' => 'https://schema.org',

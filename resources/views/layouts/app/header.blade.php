@@ -334,7 +334,7 @@
                             </div>
 
                             <div class="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0b3d2c]">
-                                Rp30K
+                                30K
                             </div>
 
                         </div>
@@ -507,12 +507,12 @@
 
                     <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
 
-                        <a href="#"
+                        <a href="wa.me/6285190805140" target="_blank"
                             class="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 font-bold text-[#0b3d2c] hover:scale-105 transition">
                             WhatsApp Booking
                         </a>
 
-                        <a href="#"
+                        <a href="https://instagram.com/soklenn.id" target="_blank"
                             class="inline-flex items-center justify-center rounded-2xl border border-white/10 px-8 py-4 font-bold hover:bg-white/10 transition">
                             Instagram
                         </a>
@@ -527,36 +527,118 @@
 
     </section>
 
-    <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
+    <section class="py-20 bg-gradient-to-b from-white to-zinc-50">
+        <div class="max-w-5xl mx-auto px-4">
 
-            <h2 class="text-3xl font-black mb-8">
-                Pertanyaan yang Sering Diajukan
-            </h2>
+            <div class="text-center mb-12">
+                <span
+                    class="inline-flex items-center rounded-full bg-[#0b3d2c]/10 px-4 py-2 text-sm font-semibold text-[#0b3d2c]">
+                    FAQ
+                </span>
 
-            <div class="space-y-6">
+                <h2 class="mt-4 text-4xl md:text-5xl font-black text-zinc-900">
+                    Pertanyaan yang Sering Ditanyakan
+                </h2>
 
-                <div>
-                    <h3 class="font-bold">Berapa lama proses cuci sepatu?</h3>
-                    <p>Proses normal 1-3 hari tergantung kondisi sepatu.</p>
-                </div>
+                <p class="mt-4 text-zinc-600 max-w-2xl mx-auto">
+                    Masih ragu? Berikut beberapa pertanyaan yang paling sering ditanyakan pelanggan Soklenn.
+                </p>
+            </div>
 
-                <div>
-                    <h3 class="font-bold">Apakah tersedia layanan antar jemput?</h3>
-                    <p>Ya, tersedia layanan Pick Up & Delivery untuk area tertentu di Banjarbaru.</p>
-                </div>
+            <div class="space-y-4">
 
-                <div>
-                    <h3 class="font-bold">Berapa harga Deep Clean?</h3>
-                    <p>Mulai dari Rp40.000 per pasang.</p>
-                </div>
+                <details
+                    class="group rounded-3xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-lg transition">
+                    <summary
+                        class="flex cursor-pointer items-center justify-between gap-4 list-none font-bold text-lg">
+                        <span>Berapa lama proses cuci sepatu?</span>
 
-                <div>
-                    <h3 class="font-bold">Apakah bisa membersihkan sepatu putih menguning?</h3>
-                    <p>Bisa. Kami menyediakan treatment sesuai kondisi material sepatu.</p>
-                </div>
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3d2c] text-white transition group-open:rotate-45">
+                            +
+                        </div>
+                    </summary>
+
+                    <p class="mt-4 text-zinc-600 leading-relaxed">
+                        Proses pengerjaan reguler membutuhkan sekitar 3–4 hari. Untuk layanan express,
+                        pengerjaan dapat selesai dalam 1–2 hari tergantung kondisi sepatu.
+                    </p>
+                </details>
+
+                <details
+                    class="group rounded-3xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-lg transition">
+                    <summary
+                        class="flex cursor-pointer items-center justify-between gap-4 list-none font-bold text-lg">
+                        <span>Apakah tersedia layanan antar jemput?</span>
+
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3d2c] text-white transition group-open:rotate-45">
+                            +
+                        </div>
+                    </summary>
+
+                    <p class="mt-4 text-zinc-600 leading-relaxed">
+                        Ya. Soklenn menyediakan layanan Pick Up & Delivery untuk area tertentu sehingga
+                        kamu tidak perlu datang langsung ke lokasi.
+                    </p>
+                </details>
+
+                <details
+                    class="group rounded-3xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-lg transition">
+                    <summary
+                        class="flex cursor-pointer items-center justify-between gap-4 list-none font-bold text-lg">
+                        <span>Berapa harga layanan Deep Clean?</span>
+
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3d2c] text-white transition group-open:rotate-45">
+                            +
+                        </div>
+                    </summary>
+
+                    <p class="mt-4 text-zinc-600 leading-relaxed">
+                        Harga Deep Clean mulai dari <strong>Rp40.000</strong> per pasang. Harga dapat
+                        berbeda untuk treatment tambahan seperti whitening atau unyellowing.
+                    </p>
+                </details>
+
+                <details
+                    class="group rounded-3xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-lg transition">
+                    <summary
+                        class="flex cursor-pointer items-center justify-between gap-4 list-none font-bold text-lg">
+                        <span>Apakah sepatu putih yang menguning bisa dibersihkan?</span>
+
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3d2c] text-white transition group-open:rotate-45">
+                            +
+                        </div>
+                    </summary>
+
+                    <p class="mt-4 text-zinc-600 leading-relaxed">
+                        Bisa. Kami menyediakan treatment whitening dan unyellowing untuk membantu
+                        mengurangi noda kuning pada bagian tertentu sesuai kondisi sepatu.
+                    </p>
+                </details>
+
+                <details
+                    class="group rounded-3xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-lg transition">
+                    <summary
+                        class="flex cursor-pointer items-center justify-between gap-4 list-none font-bold text-lg">
+                        <span>Apakah semua jenis sepatu bisa dicuci?</span>
+
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3d2c] text-white transition group-open:rotate-45">
+                            +
+                        </div>
+                    </summary>
+
+                    <p class="mt-4 text-zinc-600 leading-relaxed">
+                        Sebagian besar jenis sepatu dapat kami tangani, mulai dari sneakers, running,
+                        casual, hingga sepatu berbahan canvas dan knit.
+                    </p>
+                </details>
 
             </div>
+
         </div>
     </section>
 

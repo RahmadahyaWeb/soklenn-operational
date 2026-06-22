@@ -41,31 +41,120 @@
 {!! json_encode([
     '@context' => 'https://schema.org',
     '@type' => 'LocalBusiness',
+
     'name' => 'Soklenn',
+
     'url' => 'https://soklenn.store',
+
+    'logo' => asset('logo-soklenn-putih.png'),
+
     'image' => asset('logo-soklenn-putih.png'),
+
     'description' => 'Jasa cuci sepatu profesional di Banjarbaru',
-    'telephone' => '+628xxxxxxxxxx',
+
+    'telephone' => '+6285190805140',
+
+    'email' => 'thelastpc24@gmail.com',
+
+    'priceRange' => 'Rp30.000-Rp40.000',
+
+    'currenciesAccepted' => 'IDR',
+
+    'paymentAccepted' => [
+        'Cash',
+        'Transfer Bank',
+        'QRIS',
+    ],
+
+    'openingHours' => [
+        'Mo-Su 09:00-17:00',
+    ],
+
+    'sameAs' => [
+        'https://instagram.com/soklenn.id',
+    ],
+
     'address' => [
         '@type' => 'PostalAddress',
-        'streetAddress' => 'ALAMAT LENGKAP TOKO',
+        'streetAddress' => 'Jl. Ambulung No. 22',
         'addressLocality' => 'Banjarbaru',
         'addressRegion' => 'Kalimantan Selatan',
-        'postalCode' => '707xx',
+        'postalCode' => '70714',
         'addressCountry' => 'ID',
     ],
+
     'geo' => [
         '@type' => 'GeoCoordinates',
-        'latitude' => '-3.xxxxxx',
-        'longitude' => '114.xxxxxx',
+        'latitude' => '-3.456541467857966',
+        'longitude' => '114.82416904010063',
     ],
-    'areaServed' => 'Banjarbaru',
-    'priceRange' => 'Rp30.000-Rp40.000',
+
+    'areaServed' => [
+        'Banjarbaru',
+        'Banjarbaru Utara',
+        'Banjarbaru Selatan',
+        'Landasan Ulin',
+        'Liang Anggang',
+        'Cempaka',
+        'Martapura',
+    ],
+
     'serviceType' => [
         'Cuci Sepatu',
         'Deep Clean',
         'Fast Clean',
         'Pick Up & Delivery',
+        'Whitening',
+        'Unyellowing',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+
+    <script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'FAQPage',
+    'mainEntity' => [
+        [
+            '@type' => 'Question',
+            'name' => 'Berapa lama proses cuci sepatu?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Proses pengerjaan reguler membutuhkan sekitar 3–4 hari. Untuk layanan express, pengerjaan dapat selesai dalam 1–2 hari tergantung kondisi sepatu.',
+            ],
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'Apakah tersedia layanan antar jemput?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Ya. Soklenn menyediakan layanan Pick Up & Delivery untuk area tertentu sehingga kamu tidak perlu datang langsung ke lokasi.',
+            ],
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'Berapa harga layanan Deep Clean?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Harga Deep Clean mulai dari Rp40.000 per pasang. Harga dapat berbeda untuk treatment tambahan seperti whitening atau unyellowing.',
+            ],
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'Apakah sepatu putih yang menguning bisa dibersihkan?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Bisa. Kami menyediakan treatment whitening dan unyellowing untuk membantu mengurangi noda kuning pada bagian tertentu sesuai kondisi sepatu.',
+            ],
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'Apakah semua jenis sepatu bisa dicuci?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Sebagian besar jenis sepatu dapat kami tangani, mulai dari sneakers, running, casual, hingga sepatu berbahan canvas dan knit.',
+            ],
+        ],
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
 </script>

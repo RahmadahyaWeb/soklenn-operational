@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::livewire('/', 'pages::landing-page')
-    ->name('home');
+// Route::livewire('/', 'pages::landing-page')
+//     ->name('home');
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard', 'pages::dashboard.index')

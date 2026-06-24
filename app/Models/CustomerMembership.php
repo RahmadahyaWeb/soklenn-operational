@@ -20,6 +20,7 @@ class CustomerMembership extends Model
         'family_since',
         'public_token',
         'member_code',
+        'card_image',
     ];
 
     protected $casts = [

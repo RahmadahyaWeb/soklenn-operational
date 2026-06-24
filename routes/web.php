@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MembershipCardController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MembershipLookupController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,11 @@ Route::get(
     '/membership/{public_token}',
     MembershipCardController::class
 )->name('membership.card');
+
+Route::post(
+    '/membership/{membership}/save-card',
+    [MembershipController::class, 'saveCard']
+)->name('membership.save-card');
 
 Route::get(
     '/membership',

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "../../vendor/livewire/flux/dist/flux.css";
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap");
+
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
@@ -73,4 +75,9 @@ html {
 
 .flip-card-back {
     transform: rotateY(180deg);
+}
+
+.membership-card {
+    width: 856px;
+    height: 540px;
 }

@@ -13,91 +13,9 @@
                 <div class="flip-card-inner">
 
                     {{-- FRONT --}}
-                    <div id="membership-card" class="flip-card-front">
+                    <div class="flip-card-front">
 
-                        @php
-                            $membershipUrl = route('membership.card', $membership->public_token);
-                        @endphp
-
-                        <div class="absolute inset-0 bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]"></div>
-
-                        <div class="absolute -top-[15%] -right-[15%] h-[60%] w-[60%] rounded-full border border-white/10">
-                        </div>
-
-                        <div class="absolute -bottom-[20%] -left-[10%] h-[70%] w-[70%] rounded-full border border-white/10">
-                        </div>
-
-                        <div
-                            class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_30%)]">
-                        </div>
-
-                        <div class="relative flex h-full flex-col p-4 sm:p-6 text-white">
-
-                            <div>
-
-                                <div class="text-[9px] sm:text-[11px] uppercase tracking-[0.35em] text-white/70">
-
-                                    Soklenn Membership
-
-                                </div>
-
-                                <h2 class="mt-2 text-lg sm:text-xl font-bold">
-
-                                    @if ($membership->isFamily())
-                                        ⭐ SOKLENN FAMILY
-                                    @else
-                                        SOKLENN MEMBER
-                                    @endif
-
-                                </h2>
-
-                            </div>
-
-                            <div class="mt-auto">
-
-                                <div class="text-lg sm:text-xl font-bold">
-                                    {{ strtoupper($membership->customer->name) }}
-                                </div>
-
-                                <div class="mt-1 text-sm sm:text-base text-white/70">
-                                    {{ $membership->member_code }}
-                                </div>
-
-                            </div>
-
-                            <div class="mt-4 flex items-end justify-between">
-
-                                <div>
-
-                                    <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-white/60">
-
-                                        Member Since
-
-                                    </div>
-
-                                    <div class="mt-1 text-xs sm:text-sm font-medium">
-                                        {{ $membership->member_since?->format('d M Y') }}
-                                    </div>
-
-                                    <div
-                                        class="mt-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] sm:px-3 sm:text-xs font-semibold">
-
-                                        {{ strtoupper($membership->tier) }}
-
-                                    </div>
-
-                                </div>
-
-                                <div class="rounded-xl bg-white p-1.5 sm:p-2">
-
-                                    <img src="https://quickchart.io/qr?size=120&margin=1&text={{ urlencode($membershipUrl) }}"
-                                        alt="QR Membership" class="h-12 w-12 sm:h-16 sm:w-16">
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                        @include('membership.partials.card-front')
 
                     </div>
 
@@ -172,12 +90,14 @@
 
                 </button>
 
-                <button onclick="downloadStoryCard()"
-                    class="w-full rounded-xl border border-[#05643b] px-4 py-3 text-sm font-medium text-[#05643b] hover:bg-[#05643b]/5">
+                @if ($membership->card_image)
+                    <button id="download-story-btn" onclick="downloadStoryCard()"
+                        class="w-full rounded-xl border border-[#05643b] px-4 py-3 text-sm font-medium text-[#05643b] hover:bg-[#05643b]/5">
 
-                    Download Story
+                        Download Story
 
-                </button>
+                    </button>
+                @endif
 
             </div>
 
@@ -375,93 +295,17 @@
                 </div>
 
                 {{-- Card --}}
-                <div class="absolute left-1/2 top-[740px] -translate-x-1/2">
+                <div class="absolute left-1/2 top-[820px] -translate-x-1/2">
 
-                    <div
-                        class="relative h-[540px] w-[856px] overflow-hidden rounded-[48px] bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]">
-
-                        <div class="absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full border border-white/10">
-                        </div>
-
-                        <div class="absolute -bottom-40 -left-20 h-[450px] w-[450px] rounded-full border border-white/10">
-                        </div>
-
-                        <div
-                            class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_30%)]">
-                        </div>
-
-                        <div class="relative flex h-full flex-col p-12 text-white">
-
-                            <div>
-
-                                <div class="text-xl uppercase tracking-[0.4em] text-white/70">
-
-                                    Soklenn Membership
-
-                                </div>
-
-                                <div class="mt-4 text-5xl font-black">
-
-                                    @if ($membership->isFamily())
-                                        ⭐ SOKLENN FAMILY
-                                    @else
-                                        SOKLENN MEMBER
-                                    @endif
-
-                                </div>
-
-                            </div>
-
-                            <div class="mt-auto">
-
-                                <div class="text-5xl font-bold">
-                                    {{ strtoupper($membership->customer->name) }}
-                                </div>
-
-                                <div class="mt-3 text-2xl text-white/70">
-                                    {{ $membership->member_code }}
-                                </div>
-
-                            </div>
-
-                            <div class="mt-8 flex items-end justify-between">
-
-                                <div>
-
-                                    <div class="text-lg uppercase tracking-wider text-white/60">
-
-                                        Member Since
-
-                                    </div>
-
-                                    <div class="mt-2 text-2xl font-medium">
-                                        {{ $membership->member_since?->format('d M Y') }}
-                                    </div>
-
-                                    <div class="mt-4 inline-flex rounded-full bg-white/15 px-5 py-2 text-lg font-semibold">
-
-                                        {{ strtoupper($membership->tier) }}
-
-                                    </div>
-
-                                </div>
-
-                                <div class="rounded-2xl bg-white p-4">
-
-                                    <img crossorigin="anonymous"
-                                        src="https://quickchart.io/qr?size=300&margin=1&text={{ urlencode($membershipUrl) }}"
-                                        alt="QR Membership" class="h-40 w-40">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <img src="{{ Storage::url($membership->card_image) }}" alt="Membership Card"
+                        style="
+            width: 960px;
+            max-width: none;
+            border-radius: 60px;
+            display: block;
+        ">
 
                 </div>
-
                 {{-- Footer --}}
                 <div class="absolute bottom-40 left-0 right-0 text-center text-white">
 
@@ -515,6 +359,19 @@
                 link.href = dataUrl;
 
                 link.click();
+
+                await fetch(
+                    "{{ route('membership.save-card', $membership) }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            image: dataUrl
+                        })
+                    }
+                );
 
                 button.innerHTML = `
             ✓ Downloaded

@@ -3,8 +3,8 @@
 @section('content')
     @include('sections.header')
 
-    <div class="max-w-3xl mx-auto px-4 py-8">
-        <div class="mx-auto max-w-[420px]">
+    <div class="max-w-[420px] mx-auto px-4 py-8">
+        <div class="mx-auto w-full max-w-[420px]">
 
             <input type="checkbox" id="flip-card" class="peer hidden">
 
@@ -19,52 +19,47 @@
                             $membershipUrl = route('membership.card', $membership->public_token);
                         @endphp
 
-                        <div class="absolute inset-0 bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]"></div>
+
+                        <div class="absolute -top-[15%] -right-[15%] h-[60%] w-[60%] rounded-full border border-white/10">
                         </div>
 
-                        <div class="absolute -top-20 -right-20 h-64 w-64 rounded-full border border-white/10">
-                        </div>
-
-                        <div class="absolute -bottom-24 -left-10 h-72 w-72 rounded-full border border-white/10">
+                        <div class="absolute -bottom-[20%] -left-[10%] h-[70%] w-[70%] rounded-full border border-white/10">
                         </div>
 
                         <div
                             class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_30%)]">
                         </div>
 
-                        <div class="relative flex h-full flex-col p-6 text-white">
+                        <div class="relative flex h-full flex-col p-4 sm:p-6 text-white">
 
-                            <div class="flex items-start justify-between">
+                            <div>
 
-                                <div>
+                                <div class="text-[9px] sm:text-[11px] uppercase tracking-[0.35em] text-white/70">
 
-                                    <div class="text-[11px] uppercase tracking-[0.35em] text-white/70">
-
-                                        Soklenn Membership
-
-                                    </div>
-
-                                    <h2 class="mt-2 text-xl font-bold">
-
-                                        @if ($membership->isFamily())
-                                            ⭐ SOKLENN FAMILY
-                                        @else
-                                            SOKLENN MEMBER
-                                        @endif
-
-                                    </h2>
+                                    Soklenn Membership
 
                                 </div>
+
+                                <h2 class="mt-2 text-lg sm:text-xl font-bold">
+
+                                    @if ($membership->isFamily())
+                                        ⭐ SOKLENN FAMILY
+                                    @else
+                                        SOKLENN MEMBER
+                                    @endif
+
+                                </h2>
 
                             </div>
 
                             <div class="mt-auto">
 
-                                <div class="text-xl font-bold">
+                                <div class="text-lg sm:text-xl font-bold">
                                     {{ strtoupper($membership->customer->name) }}
                                 </div>
 
-                                <div class="mt-1 text-white/70">
+                                <div class="mt-1 text-sm sm:text-base text-white/70">
                                     {{ $membership->member_code }}
                                 </div>
 
@@ -74,17 +69,18 @@
 
                                 <div>
 
-                                    <div class="text-[10px] uppercase tracking-wider text-white/60">
+                                    <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-white/60">
 
                                         Member Since
 
                                     </div>
 
-                                    <div class="mt-1 text-sm font-medium">
+                                    <div class="mt-1 text-xs sm:text-sm font-medium">
                                         {{ $membership->member_since?->format('d M Y') }}
                                     </div>
 
-                                    <div class="mt-2 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
+                                    <div
+                                        class="mt-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] sm:px-3 sm:text-xs font-semibold">
 
                                         {{ strtoupper($membership->tier) }}
 
@@ -92,10 +88,10 @@
 
                                 </div>
 
-                                <div class="rounded-xl bg-white p-2 shadow-lg">
+                                <div class="rounded-xl bg-white p-1.5 sm:p-2">
 
                                     <img src="https://quickchart.io/qr?size=120&margin=1&text={{ urlencode($membershipUrl) }}"
-                                        alt="QR Membership" class="h-16 w-16">
+                                        alt="QR Membership" class="h-12 w-12 sm:h-16 sm:w-16">
 
                                 </div>
 
@@ -108,18 +104,17 @@
                     {{-- BACK --}}
                     <div class="flip-card-back">
 
-                        <div class="absolute inset-0 bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]">
-                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]"></div>
 
                         <div
                             class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,.15),transparent_30%)]">
                         </div>
 
-                        <div class="relative flex h-full flex-col justify-center px-6 text-white">
+                        <div class="relative flex h-full flex-col justify-center px-4 sm:px-6 text-white">
 
                             <div class="text-center">
 
-                                <div class="text-[11px] uppercase tracking-[0.35em] text-white/70">
+                                <div class="text-[9px] sm:text-[11px] uppercase tracking-[0.35em] text-white/70">
 
                                     Stamp Card
 
@@ -127,28 +122,16 @@
 
                             </div>
 
-                            <div class="mt-6 flex justify-center">
+                            <div class="mt-5 flex justify-center">
 
-                                <div class="grid grid-cols-5 gap-2">
-                                    @php
-
-                                        $rewardLabels = [
-                                            3 => '10%',
-                                            5 => '10K',
-                                            7 => '15%',
-                                            10 => '20K',
-                                            12 => '20%',
-                                            15 => 'FAM',
-                                        ];
-
-                                    @endphp
+                                <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
 
                                     @for ($i = 1; $i <= 15; $i++)
                                         <div
-                                            class="flex h-10 w-10 items-center justify-center rounded-full border-2 text-[10px] font-bold
-                    {{ $membership->stamp >= $i
-                        ? 'border-white bg-white text-[#05643b]'
-                        : 'border-white/30 bg-white/10 text-white/70' }}">
+                                            class="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-[9px] sm:text-[10px] font-bold
+                                    {{ $membership->stamp >= $i
+                                        ? 'border-white bg-white text-[#05643b]'
+                                        : 'border-white/30 bg-white/10 text-white/70' }}">
 
                                             {{ $rewardMap[$i] ?? $i }}
 
@@ -160,10 +143,10 @@
                             </div>
 
                             @if ($membership->stamp >= 15)
-                                <div class="mt-6 flex justify-center">
+                                <div class="mt-5 flex justify-center">
 
                                     <div
-                                        class="rounded-full bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-200">
+                                        class="rounded-full bg-emerald-500/20 px-4 py-2 text-xs sm:text-sm font-semibold text-emerald-200">
 
                                         ⭐ Family Member
 
@@ -180,17 +163,17 @@
 
             </label>
 
-            <div class="mt-5 flex flex-wrap justify-center gap-3">
+            <div class="mt-5 grid grid-cols-2 gap-3">
 
                 <button onclick="downloadMembershipCard()"
-                    class="rounded-xl bg-[#05643b] px-5 py-3 text-sm font-medium text-white hover:bg-[#045533]">
+                    class="w-full rounded-xl bg-[#05643b] px-4 py-3 text-sm font-medium text-white hover:bg-[#045533]">
 
                     Download Card
 
                 </button>
 
                 <button onclick="downloadStoryCard()"
-                    class="rounded-xl border border-[#05643b] px-5 py-3 text-sm font-medium text-[#05643b] hover:bg-[#05643b]/5">
+                    class="w-full rounded-xl border border-[#05643b] px-4 py-3 text-sm font-medium text-[#05643b] hover:bg-[#05643b]/5">
 
                     Download Story
 
@@ -395,7 +378,7 @@
                 <div class="absolute left-1/2 top-[740px] -translate-x-1/2">
 
                     <div
-                        class="relative h-[540px] w-[856px] overflow-hidden rounded-[48px] bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d] shadow-2xl">
+                        class="relative h-[540px] w-[856px] overflow-hidden rounded-[48px] bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d]">
 
                         <div class="absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full border border-white/10">
                         </div>

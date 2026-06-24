@@ -11,11 +11,11 @@
 
             <div class="hidden lg:flex items-center gap-10 text-white font-medium">
 
-                <a href="#services" class="hover:opacity-70 transition">
+                <a href="/#services" class="hover:opacity-70 transition">
                     Services
                 </a>
 
-                <a href="#about" class="hover:opacity-70 transition">
+                <a href="/#about" class="hover:opacity-70 transition">
                     About
                 </a>
 
@@ -23,11 +23,11 @@
                     Testimonials
                 </a>
 
-                <a href="#location" class="hover:opacity-70 transition">
+                <a href="/#location" class="hover:opacity-70 transition">
                     Location
                 </a>
 
-                <a href="#faq" class="hover:opacity-70 transition">
+                <a href="/#faq" class="hover:opacity-70 transition">
                     FAQ
                 </a>
 
@@ -35,7 +35,7 @@
                     Membership
                 </a>
 
-                <a href="#contact" class="hover:opacity-70 transition">
+                <a href="/#contact" class="hover:opacity-70 transition">
                     Contact
                 </a>
 

@@ -48,8 +48,78 @@
 
             </div>
 
-            @if ($this->availableRewards->count())
+            @if ($this->customer_id && optional(\App\Models\Customer::find($this->customer_id)?->membership)->tier === 'family')
+                @php
+                    $membership = \App\Models\Customer::find($this->customer_id)?->membership;
+                @endphp
 
+                <div class="rounded-3xl border border-yellow-200 bg-gradient-to-r from-yellow-50 to-amber-50 p-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <div class="flex items-center gap-2">
+
+                                <span class="text-2xl">
+                                    ⭐
+                                </span>
+
+                                <div>
+
+                                    <div class="font-bold text-yellow-900">
+                                        Soklenn Family Member
+                                    </div>
+
+                                    <div class="text-sm text-yellow-700">
+                                        Member sejak
+                                        {{ $membership->family_since?->format('d M Y') }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <flux:badge color="amber">
+                            FAMILY
+                        </flux:badge>
+
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+
+                        <div class="rounded-2xl bg-white p-3">
+
+                            <div class="text-xs text-zinc-500">
+                                Current Stamp
+                            </div>
+
+                            <div class="text-lg font-bold">
+                                {{ $membership->stamp }}
+                            </div>
+
+                        </div>
+
+                        <div class="rounded-2xl bg-white p-3">
+
+                            <div class="text-xs text-zinc-500">
+                                Benefit
+                            </div>
+
+                            <div class="text-lg font-bold text-green-600">
+                                10% OFF
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            @endif
+
+            @if ($this->availableRewards->count())
                 <div class="mt-6 rounded-3xl border border-amber-200 bg-amber-50 p-5">
 
                     <div class="flex items-center justify-between">
@@ -61,44 +131,22 @@
                             </h3>
 
                             <p class="text-sm text-amber-700 mt-1">
-                                Customer memiliki {{ $this->availableRewards->count() }}
-                                reward yang dapat digunakan.
+                                Customer memiliki
+                                <strong>{{ $this->availableRewards->count() }}</strong>
+                                reward yang belum digunakan.
                             </p>
 
                         </div>
 
-                    </div>
+                        <flux:button variant="primary" wire:click="openRewardModal">
 
-                    <div class="mt-4 grid gap-3">
+                            Pilih Reward
 
-                        @foreach ($this->availableRewards as $claim)
-                            <div
-                                class="flex items-center justify-between rounded-2xl border border-amber-200 bg-white p-4">
-
-                                <div>
-
-                                    <div class="font-semibold text-zinc-900">
-                                        {{ $claim->reward->name }}
-                                    </div>
-
-                                    <div class="text-sm text-zinc-500">
-                                        Reward Member
-                                    </div>
-
-                                </div>
-
-                                <flux:button size="sm" variant="primary"
-                                    wire:click="useReward({{ $claim->id }})">
-                                    Gunakan
-                                </flux:button>
-
-                            </div>
-                        @endforeach
+                        </flux:button>
 
                     </div>
 
                 </div>
-
             @endif
 
             @if ($this->selectedReward)
@@ -315,11 +363,21 @@
 
                     <div class="flex items-center justify-between text-sm">
                         <span class="text-zinc-500">
-                            Discount
+                            Reward Discount
                         </span>
 
                         <span>
                             Rp {{ number_format($discount, 0, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-zinc-500">
+                            Family Discount
+                        </span>
+
+                        <span>
+                            Rp {{ number_format($this->familyDiscount, 0, ',', '.') }}
                         </span>
                     </div>
 
@@ -329,7 +387,7 @@
                         </span>
 
                         <span>
-                            Rp {{ number_format(max($this->grandTotal, 0), 0, ',', '.') }}
+                            Rp {{ number_format($this->grandTotal, 0, ',', '.') }}
                         </span>
                     </div>
 
@@ -393,6 +451,67 @@
                 <flux:button type="button" variant="primary" wire:click="createCustomer">
                     Save Customer
                 </flux:button>
+
+            </div>
+
+        </div>
+
+    </flux:modal>
+
+    <flux:modal name="reward-selector" class="md:w-[700px]">
+
+        <div class="space-y-6">
+
+            <div>
+
+                <flux:heading size="lg">
+                    Pilih Reward
+                </flux:heading>
+
+                <flux:text class="mt-2">
+                    Pilih salah satu reward yang ingin digunakan pada transaksi ini.
+                </flux:text>
+
+            </div>
+
+            <div class="space-y-3 max-h-[500px] overflow-y-auto">
+
+                @forelse ($this->availableRewards as $claim)
+                    <div class="flex items-center justify-between rounded-2xl border p-4">
+
+                        <div>
+
+                            <div class="font-semibold">
+
+                                {{ $claim->reward->name }}
+
+                            </div>
+
+                            <div class="text-sm text-zinc-500">
+
+                                Didapat:
+                                {{ $claim->claimed_at?->format('d M Y') }}
+
+                            </div>
+
+                        </div>
+
+                        <flux:button size="sm" variant="primary" wire:click="useReward({{ $claim->id }})">
+
+                            Gunakan
+
+                        </flux:button>
+
+                    </div>
+
+                @empty
+
+                    <div class="text-center text-zinc-500 py-10">
+
+                        Tidak ada reward tersedia.
+
+                    </div>
+                @endforelse
 
             </div>
 

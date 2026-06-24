@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\MembershipReward;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
@@ -26,7 +27,10 @@ new #[Title('Customers')] class extends Component
     #[Computed()]
     public function customers()
     {
-        return Customer::latest()->paginate(10);
+        return Customer::with([
+            'membership.rewardClaims',
+        ])
+            ->latest()->paginate(10);
     }
 
     public function confirmDelete(int $id): void
@@ -65,8 +69,26 @@ new #[Title('Customers')] class extends Component
     {
         $this->selectedCustomer = Customer::with([
             'membership.rewardClaims.reward',
+            'membership.rewardClaims.order',
         ])->findOrFail($id);
 
         $this->modal('customer-membership')->show();
+    }
+
+    public function getNextRewardProperty()
+    {
+        if (! $this->selectedCustomer?->membership) {
+            return null;
+        }
+
+        return MembershipReward::query()
+            ->where('is_active', true)
+            ->where(
+                'required_stamp',
+                '>',
+                $this->selectedCustomer->membership->stamp
+            )
+            ->orderBy('required_stamp')
+            ->first();
     }
 };

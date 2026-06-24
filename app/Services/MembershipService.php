@@ -50,6 +50,19 @@ class MembershipService
                 'claimed_at' => now(),
             ]);
 
+            if (
+                $reward->reward_type === 'tier_upgrade'
+                && $reward->reward_value === 'family'
+                && $membership->tier !== 'family'
+            ) {
+
+                $membership->update([
+                    'tier' => 'family',
+                    'family_since' => now(),
+                ]);
+
+            }
+
         }
     }
 }

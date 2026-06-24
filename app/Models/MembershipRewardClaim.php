@@ -17,6 +17,7 @@ class MembershipRewardClaim extends Model
 
     protected $casts = [
         'claimed_at' => 'datetime',
+        'used_at' => 'datetime',
     ];
 
     public function membership(): BelongsTo

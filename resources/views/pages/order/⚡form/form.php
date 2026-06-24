@@ -129,6 +129,9 @@ new class extends Component
                 $customer->membership->id
             )
             ->whereNull('used_at')
+            ->whereHas('reward', function ($query) {
+                $query->where('reward_type', '!=', 'tier_upgrade');
+            })
             ->whereDoesntHave('orders', function ($query) {
 
                 $query->whereIn('status', [
@@ -227,7 +230,12 @@ new class extends Component
     #[Computed()]
     public function grandTotal()
     {
-        return $this->subtotal - $this->discount;
+        return max(
+            $this->subtotal
+            - $this->discount
+            - $this->familyDiscount,
+            0
+        );
     }
 
     #[Computed()]
@@ -274,6 +282,27 @@ new class extends Component
 
             default => [],
         };
+    }
+
+    #[Computed()]
+    public function familyDiscount()
+    {
+        if (! $this->customer_id) {
+            return 0;
+        }
+
+        $customer = Customer::with('membership')
+            ->find($this->customer_id);
+
+        if (! $customer?->membership) {
+            return 0;
+        }
+
+        if ($customer->membership->tier !== 'family') {
+            return 0;
+        }
+
+        return round($this->subtotal * 10 / 100);
     }
 
     public function save()
@@ -530,11 +559,13 @@ new class extends Component
         );
     }
 
-    public function useReward(int $claimId)
+    public function useReward(int $claimId): void
     {
         $this->selected_reward_claim_id = $claimId;
 
         $this->calculateRewardDiscount();
+
+        $this->modal('reward-selector')->close();
     }
 
     public function calculateRewardDiscount(): void
@@ -601,5 +632,10 @@ new class extends Component
         $this->selected_reward_claim_id = null;
 
         $this->calculateRewardDiscount();
+    }
+
+    public function openRewardModal(): void
+    {
+        $this->modal('reward-selector')->show();
     }
 };

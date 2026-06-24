@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MembershipCardController;
 use Illuminate\Support\Facades\Route;
 
 // Route::livewire('/', 'pages::landing-page')
@@ -8,6 +9,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get(
+    '/member/{public_token}',
+    MembershipCardController::class
+)->name('membership.card');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard', 'pages::dashboard.index')

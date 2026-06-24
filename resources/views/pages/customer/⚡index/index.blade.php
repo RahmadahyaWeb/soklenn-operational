@@ -10,6 +10,10 @@
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
                 <flux:table.column>Phone</flux:table.column>
+                <flux:table.column>Stamp</flux:table.column>
+                <flux:table.column>Tier</flux:table.column>
+                <flux:table.column>Reward</flux:table.column>
+                <flux:table.column>Membership URL</flux:table.column>
                 <flux:table.column></flux:table.column>
             </flux:table.columns>
 
@@ -26,6 +30,43 @@
                             {{ $customer->phone ?? '-' }}
                         </flux:table.cell>
 
+                        <flux:table.cell>
+                            {{ $customer->membership?->stamp ?? 0 }}
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+
+                            @if ($customer->membership?->tier === 'family')
+                                <flux:badge color="amber">
+                                    Family
+                                </flux:badge>
+                            @else
+                                <flux:badge color="zinc">
+                                    Regular
+                                </flux:badge>
+                            @endif
+
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+
+                            @if ($customer->membership)
+                                <a href="{{ route('membership.card', $customer->membership->public_token) }}"
+                                    target="_blank" class="text-xs text-blue-600 hover:underline">
+
+                                    Open Card
+
+                                </a>
+                            @else
+                                -
+                            @endif
+
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+                            {{ $customer->membership?->rewardClaims?->whereNull('used_at')->count() ?? 0 }}
+                        </flux:table.cell>
+
                         <flux:table.cell align="end">
 
                             <flux:dropdown>
@@ -34,10 +75,11 @@
 
                                 <flux:menu>
 
-
                                     <flux:menu.item icon="star" wire:click="viewMembership({{ $customer->id }})">
                                         Membership
                                     </flux:menu.item>
+
+                                    <flux:menu.separator />
 
                                     <flux:menu.item icon="pencil" href="{{ route('customers.edit', $customer) }}">
                                         Edit
@@ -57,7 +99,6 @@
                         </flux:table.cell>
 
                     </flux:table.row>
-
                 @empty
 
                     <flux:table.row>
@@ -174,6 +215,58 @@
                     <div class="mb-4">
 
                         <h3 class="font-semibold">
+                            Membership Progress
+                        </h3>
+
+                    </div>
+
+                    @if ($this->nextReward)
+                        <div class="space-y-2">
+
+                            <div>
+
+                                Current Stamp:
+                                <strong>
+                                    {{ $selectedCustomer->membership->stamp }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                Next Reward:
+                                <strong>
+                                    {{ $this->nextReward->name }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                Need
+                                <strong>
+                                    {{ $this->nextReward->required_stamp - $selectedCustomer->membership->stamp }}
+                                </strong>
+                                more stamp(s)
+
+                            </div>
+
+                        </div>
+                    @else
+                        <div class="text-green-600 font-medium">
+
+                            🎉 Customer sudah mencapai reward tertinggi.
+
+                        </div>
+                    @endif
+
+                </flux:card>
+
+                <flux:card>
+
+                    <div class="mb-4">
+
+                        <h3 class="font-semibold">
                             Available Rewards
                         </h3>
 
@@ -210,6 +303,88 @@
 
                             <div class="text-sm text-zinc-500">
                                 No available rewards.
+                            </div>
+                        @endforelse
+
+                    </div>
+
+                </flux:card>
+
+                <flux:card>
+
+                    <div class="mb-4">
+
+                        <h3 class="font-semibold">
+                            Reward History
+                        </h3>
+
+                        <p class="text-sm text-zinc-500">
+                            Riwayat reward yang diperoleh dan digunakan customer.
+                        </p>
+
+                    </div>
+
+                    <div class="space-y-3">
+
+                        @forelse ($selectedCustomer->membership?->rewardClaims
+                ?->sortByDesc('claimed_at')
+                ?? collect()
+            as $claim)
+                            <div class="rounded-xl border p-4">
+
+                                <div class="flex items-start justify-between">
+
+                                    <div>
+
+                                        <div class="font-medium">
+                                            {{ $claim->reward->name }}
+                                        </div>
+
+                                        <div class="text-sm text-zinc-500 mt-1">
+
+                                            Diperoleh:
+                                            {{ $claim->claimed_at?->format('d M Y H:i') }}
+
+                                        </div>
+
+                                        @if ($claim->used_at)
+                                            <div class="text-sm text-zinc-500">
+
+                                                Digunakan:
+                                                {{ $claim->used_at?->format('d M Y H:i') }}
+
+                                            </div>
+                                        @endif
+
+                                        @if ($claim->order)
+                                            <div class="text-sm text-zinc-500">
+
+                                                Order:
+                                                {{ $claim->order->invoice_number }}
+
+                                            </div>
+                                        @endif
+
+                                    </div>
+
+                                    @if ($claim->used_at)
+                                        <flux:badge color="zinc">
+                                            Used
+                                        </flux:badge>
+                                    @else
+                                        <flux:badge color="green">
+                                            Available
+                                        </flux:badge>
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                        @empty
+
+                            <div class="text-sm text-zinc-500">
+                                Belum ada riwayat reward.
                             </div>
                         @endforelse
 

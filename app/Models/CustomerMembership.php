@@ -19,6 +19,7 @@ class CustomerMembership extends Model
         'member_since',
         'family_since',
         'public_token',
+        'member_code',
     ];
 
     protected $casts = [
@@ -48,6 +49,22 @@ class CustomerMembership extends Model
             if (! $membership->public_token) {
                 $membership->public_token = Str::uuid();
             }
+
+        });
+
+        static::created(function ($membership) {
+
+            if (! $membership->member_code) {
+
+                $membership->updateQuietly([
+                    'member_code' => sprintf(
+                        'SKL-%06d',
+                        $membership->id
+                    ),
+                ]);
+
+            }
+
         });
     }
 

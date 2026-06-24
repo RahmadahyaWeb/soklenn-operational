@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         MembershipReward::insert([
             [
-                'name' => 'Diskon 10%',
+                'name' => '10%',
                 'required_stamp' => 3,
                 'reward_type' => 'discount_percentage',
                 'reward_value' => 10,
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Voucher Rp10.000',
+                'name' => '10K',
                 'required_stamp' => 5,
                 'reward_type' => 'discount_fixed',
                 'reward_value' => 10000,
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Diskon 15%',
+                'name' => '15%',
                 'required_stamp' => 7,
                 'reward_type' => 'discount_percentage',
                 'reward_value' => 15,
@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Voucher Rp20.000',
+                'name' => '20K',
                 'required_stamp' => 10,
                 'reward_type' => 'discount_fixed',
                 'reward_value' => 20000,
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Diskon 20%',
+                'name' => '20%',
                 'required_stamp' => 12,
                 'reward_type' => 'discount_percentage',
                 'reward_value' => 20,
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Soklenn Family',
+                'name' => 'FAM',
                 'required_stamp' => 15,
                 'reward_type' => 'tier_upgrade',
                 'reward_value' => 'family',

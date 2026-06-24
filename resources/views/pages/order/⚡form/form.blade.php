@@ -15,7 +15,7 @@
 
                     <div class="flex gap-2">
 
-                        <flux:select wire:model="customer_id" class="flex-1">
+                        <flux:select wire:model.live="customer_id" class="flex-1">
 
                             <flux:select.option value="">
                                 Walk In Customer
@@ -46,6 +46,103 @@
                     <flux:error name="invoice_number" />
                 </flux:field>
 
+            </div>
+
+            @if ($this->availableRewards->count())
+
+                <div class="mt-6 rounded-3xl border border-amber-200 bg-amber-50 p-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <h3 class="text-lg font-bold text-amber-900">
+                                🎁 Member Rewards
+                            </h3>
+
+                            <p class="text-sm text-amber-700 mt-1">
+                                Customer memiliki {{ $this->availableRewards->count() }}
+                                reward yang dapat digunakan.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 grid gap-3">
+
+                        @foreach ($this->availableRewards as $claim)
+                            <div
+                                class="flex items-center justify-between rounded-2xl border border-amber-200 bg-white p-4">
+
+                                <div>
+
+                                    <div class="font-semibold text-zinc-900">
+                                        {{ $claim->reward->name }}
+                                    </div>
+
+                                    <div class="text-sm text-zinc-500">
+                                        Reward Member
+                                    </div>
+
+                                </div>
+
+                                <flux:button size="sm" variant="primary"
+                                    wire:click="useReward({{ $claim->id }})">
+                                    Gunakan
+                                </flux:button>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+            @endif
+
+            @if ($this->selectedReward)
+                <div class="mt-4 rounded-3xl border border-green-200 bg-green-50 p-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <div class="flex items-center gap-2">
+
+                                <span class="text-lg">
+                                    ✅
+                                </span>
+
+                                <div class="font-semibold text-green-900">
+                                    Reward Aktif
+                                </div>
+
+                            </div>
+
+                            <div class="mt-2 text-lg font-bold text-green-800">
+                                {{ $this->selectedReward->reward->name }}
+                            </div>
+
+                            <div class="mt-1 text-sm text-green-700">
+                                Reward akan diterapkan ke transaksi ini.
+                            </div>
+
+                        </div>
+
+                        @if ($this->selectedReward && in_array($status, ['pending']))
+                            <flux:button size="sm" variant="danger" wire:click="removeReward">
+                                Batalkan
+                            </flux:button>
+                        @endif
+
+                    </div>
+
+                </div>
+            @endif
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
                 <flux:field>
                     <flux:label>Received At</flux:label>
 
@@ -62,39 +159,23 @@
                     <flux:error name="completed_at" />
                 </flux:field>
 
-                <flux:field>
-                    <flux:label>Status</flux:label>
+                @if ($order)
+                    <flux:field>
+                        <flux:label>Status</flux:label>
 
-                    <flux:select wire:model="status">
+                        <flux:select wire:model="status">
 
-                        <flux:select.option value="pending">
-                            Pending
-                        </flux:select.option>
+                            @foreach ($this->availableStatuses as $value => $label)
+                                <flux:select.option :value="$value">
+                                    {{ $label }}
+                                </flux:select.option>
+                            @endforeach
 
-                        <flux:select.option value="washing">
-                            Washing
-                        </flux:select.option>
+                        </flux:select>
 
-                        <flux:select.option value="drying">
-                            Drying
-                        </flux:select.option>
-
-                        <flux:select.option value="finished">
-                            Finished
-                        </flux:select.option>
-
-                        <flux:select.option value="picked_up">
-                            Picked Up
-                        </flux:select.option>
-
-                        <flux:select.option value="cancelled">
-                            Cancelled
-                        </flux:select.option>
-
-                    </flux:select>
-
-                    <flux:error name="status" />
-                </flux:field>
+                        <flux:error name="status" />
+                    </flux:field>
+                @endif
 
                 <flux:field>
                     <flux:label>Discount</flux:label>

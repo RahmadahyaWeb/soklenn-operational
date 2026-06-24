@@ -1,13 +1,16 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\MembershipRewardClaim;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Service;
+use App\Services\MembershipService;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -37,6 +40,8 @@ new class extends Component
 
     public $customer_phone;
 
+    public $selected_reward_claim_id;
+
     public function mount(?Order $order = null)
     {
         if ($order && $order->exists) {
@@ -52,6 +57,8 @@ new class extends Component
             $this->status = $order->status;
             $this->discount = $order->discount;
             $this->note = $order->note;
+            $this->selected_reward_claim_id =
+    $order->membership_reward_claim_id;
 
             $this->details = $order->details
                 ->map(function ($detail) {
@@ -63,6 +70,10 @@ new class extends Component
                     ];
                 })
                 ->toArray();
+
+            if ($this->selected_reward_claim_id) {
+                $this->calculateRewardDiscount();
+            }
 
         } else {
 
@@ -96,6 +107,58 @@ new class extends Component
             ->get();
     }
 
+    #[Computed()]
+    public function availableRewards()
+    {
+        if (! $this->customer_id) {
+            return collect();
+        }
+
+        $customer = Customer::with([
+            'membership.rewardClaims.reward',
+        ])->find($this->customer_id);
+
+        if (! $customer?->membership) {
+            return collect();
+        }
+
+        return MembershipRewardClaim::query()
+            ->with('reward')
+            ->where(
+                'customer_membership_id',
+                $customer->membership->id
+            )
+            ->whereNull('used_at')
+            ->whereDoesntHave('orders', function ($query) {
+
+                $query->whereIn('status', [
+                    'pending',
+                    'washing',
+                    'drying',
+                    'finished',
+                ]);
+
+                if ($this->order) {
+
+                    $query->where('id', '!=', $this->order->id);
+
+                }
+
+            })
+            ->get();
+    }
+
+    #[Computed()]
+    public function selectedReward()
+    {
+        if (! $this->selected_reward_claim_id) {
+            return null;
+        }
+
+        return MembershipRewardClaim::with('reward')
+            ->find($this->selected_reward_claim_id);
+    }
+
     public function addDetail()
     {
         $this->details[] = [
@@ -104,6 +167,8 @@ new class extends Component
             'price' => 0,
             'total' => 0,
         ];
+
+        $this->calculateRewardDiscount();
     }
 
     public function removeDetail($index)
@@ -111,6 +176,8 @@ new class extends Component
         unset($this->details[$index]);
 
         $this->details = array_values($this->details);
+
+        $this->calculateRewardDiscount();
     }
 
     public function updatedDetails($value, $key)
@@ -127,6 +194,8 @@ new class extends Component
 
                 $this->calculateDetailTotal($index);
 
+                $this->calculateRewardDiscount();
+
             }
 
         }
@@ -134,6 +203,8 @@ new class extends Component
         if ($field === 'qty') {
 
             $this->calculateDetailTotal($index);
+
+            $this->calculateRewardDiscount();
 
         }
     }
@@ -157,6 +228,52 @@ new class extends Component
     public function grandTotal()
     {
         return $this->subtotal - $this->discount;
+    }
+
+    #[Computed()]
+    public function availableStatuses()
+    {
+        if (! $this->order) {
+
+            return [
+                'pending' => 'Pending',
+            ];
+
+        }
+
+        return match ($this->order->status) {
+
+            'pending' => [
+                'pending' => 'Pending',
+                'washing' => 'Washing',
+                'cancelled' => 'Cancelled',
+            ],
+
+            'washing' => [
+                'washing' => 'Washing',
+                'drying' => 'Drying',
+            ],
+
+            'drying' => [
+                'drying' => 'Drying',
+                'finished' => 'Finished',
+            ],
+
+            'finished' => [
+                'finished' => 'Finished',
+                'picked_up' => 'Picked Up',
+            ],
+
+            'picked_up' => [
+                'picked_up' => 'Picked Up',
+            ],
+
+            'cancelled' => [
+                'cancelled' => 'Cancelled',
+            ],
+
+            default => [],
+        };
     }
 
     public function save()
@@ -224,6 +341,7 @@ new class extends Component
 
             $data = [
                 'customer_id' => $this->customer_id,
+                'membership_reward_claim_id' => $this->selected_reward_claim_id,
                 'invoice_number' => $this->invoice_number,
                 'received_at' => $this->received_at,
                 'completed_at' => $this->completed_at,
@@ -238,7 +356,69 @@ new class extends Component
 
                 $this->authorizeUpdate($this->order);
 
+                $oldStatus = $this->order->status;
+
+                $allowedTransitions = [
+                    'pending' => [
+                        'pending',
+                        'washing',
+                        'cancelled',
+                    ],
+
+                    'washing' => [
+                        'washing',
+                        'drying',
+                    ],
+
+                    'drying' => [
+                        'drying',
+                        'finished',
+                    ],
+
+                    'finished' => [
+                        'finished',
+                        'picked_up',
+                    ],
+
+                    'picked_up' => [
+                        'picked_up',
+                    ],
+
+                    'cancelled' => [
+                        'cancelled',
+                    ],
+                ];
+
+                if (
+                    ! in_array(
+                        $this->status,
+                        $allowedTransitions[$oldStatus] ?? []
+                    )
+                ) {
+                    throw ValidationException::withMessages([
+                        'status' => 'Perubahan status tidak valid.',
+                    ]);
+                }
+
+                if (
+                    $this->order->status !== 'pending'
+                    && $this->status === 'cancelled'
+                ) {
+                    throw ValidationException::withMessages([
+                        'status' => 'Order yang sudah masuk proses pencucian tidak dapat dibatalkan.',
+                    ]);
+                }
+
                 $this->order->update($data);
+
+                if (
+                    $this->order->status === 'washing'
+                    && $this->selected_reward_claim_id
+                ) {
+
+                    $this->consumeReward();
+
+                }
 
                 $this->order->details()->delete();
 
@@ -251,6 +431,23 @@ new class extends Component
                         'price' => $detail['price'],
                         'total' => $detail['total'],
                     ]);
+
+                }
+
+                if (
+                    $oldStatus !== 'washing'
+                    && $this->order->status === 'washing'
+                    && is_null($this->order->membership_processed_at)
+                ) {
+
+                    app(MembershipService::class)
+                        ->addStamp($this->order->customer_id);
+
+                    $this->order->update([
+                        'membership_processed_at' => now(),
+                    ]);
+
+                    $this->consumeReward();
 
                 }
 
@@ -331,5 +528,78 @@ new class extends Component
             text: 'Customer created successfully',
             variant: 'success'
         );
+    }
+
+    public function useReward(int $claimId)
+    {
+        $this->selected_reward_claim_id = $claimId;
+
+        $this->calculateRewardDiscount();
+    }
+
+    public function calculateRewardDiscount(): void
+    {
+        $this->discount = 0;
+
+        if (! $this->selected_reward_claim_id) {
+            return;
+        }
+
+        $claim = MembershipRewardClaim::with('reward')
+            ->find($this->selected_reward_claim_id);
+
+        if (! $claim) {
+            return;
+        }
+
+        if ($claim->reward->reward_type === 'discount_percentage') {
+
+            $this->discount = round(
+                ($this->subtotal * $claim->reward->reward_value) / 100
+            );
+
+            return;
+        }
+
+        if ($claim->reward->reward_type === 'discount_fixed') {
+
+            $this->discount = min(
+                (float) $claim->reward->reward_value,
+                (float) $this->subtotal
+            );
+
+            return;
+        }
+    }
+
+    protected function consumeReward(): void
+    {
+        if (! $this->selected_reward_claim_id) {
+            return;
+        }
+
+        $claim = MembershipRewardClaim::find(
+            $this->selected_reward_claim_id
+        );
+
+        if (! $claim) {
+            return;
+        }
+
+        if ($claim->used_at) {
+            return;
+        }
+
+        $claim->update([
+            'order_id' => $this->order->id,
+            'used_at' => now(),
+        ]);
+    }
+
+    public function removeReward(): void
+    {
+        $this->selected_reward_claim_id = null;
+
+        $this->calculateRewardDiscount();
     }
 };

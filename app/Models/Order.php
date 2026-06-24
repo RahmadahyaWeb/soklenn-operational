@@ -16,6 +16,8 @@ class Order extends Model
         'discount',
         'grand_total',
         'note',
+        'membership_processed_at',
+        'membership_reward_claim_id',
     ];
 
     protected $casts = [
@@ -24,6 +26,7 @@ class Order extends Model
         'subtotal' => 'decimal:2',
         'discount' => 'decimal:2',
         'grand_total' => 'decimal:2',
+        'membership_processed_at' => 'datetime',
     ];
 
     public function customer()
@@ -39,5 +42,12 @@ class Order extends Model
     public function income()
     {
         return $this->hasOne(Income::class);
+    }
+
+    public function membershipRewardClaim()
+    {
+        return $this->belongsTo(
+            MembershipRewardClaim::class
+        );
     }
 }

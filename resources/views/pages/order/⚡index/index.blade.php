@@ -125,12 +125,14 @@
                                         Edit
                                     </flux:menu.item>
 
-                                    <flux:menu.separator />
+                                    @if ($order->status === 'pending')
+                                        <flux:menu.separator />
 
-                                    <flux:menu.item icon="trash" variant="danger"
-                                        wire:click="confirmDelete({{ $order->id }})">
-                                        Delete
-                                    </flux:menu.item>
+                                        <flux:menu.item icon="trash" variant="danger"
+                                            wire:click="confirmDelete({{ $order->id }})">
+                                            Delete
+                                        </flux:menu.item>
+                                    @endif
 
                                 </flux:menu>
 

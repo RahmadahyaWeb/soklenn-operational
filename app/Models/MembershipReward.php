@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class MembershipReward extends Model
+{
+    protected $fillable = [
+        'name',
+        'required_stamp',
+        'reward_type',
+        'reward_value',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function claims(): HasMany
+    {
+        return $this->hasMany(MembershipRewardClaim::class);
+    }
+}

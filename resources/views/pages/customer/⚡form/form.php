@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\CustomerMembership;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -76,7 +77,13 @@ new class extends Component
 
                 $this->authorizeStore(Customer::class);
 
-                Customer::create($data);
+                $customer = Customer::create($data);
+
+                CustomerMembership::create([
+                    'customer_id' => $customer->id,
+                    'membership_number' => $this->generateMembershipNumber(),
+                    'member_since' => now(),
+                ]);
 
                 Flux::toast(
                     heading: 'Success',
@@ -89,5 +96,12 @@ new class extends Component
             $this->redirect(route('customers.index'), navigate: true);
 
         });
+    }
+
+    protected function generateMembershipNumber(): string
+    {
+        $lastId = CustomerMembership::max('id') + 1;
+
+        return 'SKL-'.str_pad($lastId, 5, '0', STR_PAD_LEFT);
     }
 };

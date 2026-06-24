@@ -10,6 +10,7 @@
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
                 <flux:table.column>Phone</flux:table.column>
+                <flux:table.column>Member Code</flux:table.column>
                 <flux:table.column>Stamp</flux:table.column>
                 <flux:table.column>Tier</flux:table.column>
                 <flux:table.column>Reward</flux:table.column>
@@ -28,6 +29,10 @@
 
                         <flux:table.cell>
                             {{ $customer->phone ?? '-' }}
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+                            {{ $customer->membership?->member_code ?? '-' }}
                         </flux:table.cell>
 
                         <flux:table.cell>
@@ -78,6 +83,15 @@
                                     <flux:menu.item icon="star" wire:click="viewMembership({{ $customer->id }})">
                                         Membership
                                     </flux:menu.item>
+
+                                    <flux:menu.item icon="clipboard-document"
+                                        wire:click="copyMembership({{ $customer->id }})">
+
+                                        Copy Membership Info
+
+                                    </flux:menu.item>
+
+                                    <flux:menu.separator />
 
                                     <flux:menu.separator />
 

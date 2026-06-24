@@ -73,4 +73,41 @@ class CustomerMembership extends Model
         return $this->rewardClaims()
             ->whereNull('used_at');
     }
+
+    public function shareText(): string
+    {
+        return "Halo {$this->customer->name} 👋
+
+Terima kasih sudah mempercayakan sepatu kamu kepada Soklenn.
+
+Mulai hari ini, kamu resmi menjadi bagian dari Membership Soklenn 🎉
+
+━━━━━━━━━━━━━━━
+
+📌 Member Code
+{$this->member_code}
+
+⭐ Status Member
+".ucfirst($this->tier)."
+
+👟 Progress Stamp
+{$this->stamp}/15
+
+🔗 Kartu Membership
+".route('membership.card', $this->public_token).'
+
+━━━━━━━━━━━━━━━
+
+Ada satu tujuan spesial yang bisa kamu capai.
+
+Saat berhasil mengumpulkan 15 stamp, status membership kamu akan otomatis naik menjadi ⭐ Soklenn Family.
+
+Status ini kami berikan untuk pelanggan yang paling setia mempercayakan perawatan sepatunya kepada Soklenn.
+
+Jadi jangan lupa simpan kartu membership kamu ya. Setiap transaksi akan membawa kamu semakin dekat ke reward berikutnya.
+
+Sampai ketemu lagi di kunjungan berikutnya 👟✨
+
+Clean, Fresh, Soklenn.';
+    }
 }

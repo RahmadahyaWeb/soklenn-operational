@@ -91,4 +91,19 @@ new #[Title('Customers')] class extends Component
             ->orderBy('required_stamp')
             ->first();
     }
+
+    public function copyMembership(int $customerId): void
+    {
+        $customer = Customer::with('membership')->findOrFail($customerId);
+
+        $this->js('
+        navigator.clipboard.writeText('.json_encode($customer->membership->shareText()).");
+
+        \$flux.toast({
+            heading: 'Success',
+            text: 'Membership info copied successfully',
+            variant: 'success'
+        });
+    ");
+    }
 };

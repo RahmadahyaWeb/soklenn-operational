@@ -1,53 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.landing')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{ $membership->customer->name }} - Membership Card</title>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        .flip-card {
-            display: block;
-            perspective: 1200px;
-            width: 100%;
-            aspect-ratio: 1.586;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform .7s;
-            transform-style: preserve-3d;
-        }
-
-        .peer:checked+.flip-card .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front,
-        .flip-card-back {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            border-radius: 24px;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            box-shadow:
-                0 20px 40px rgba(0, 0, 0, .20);
-        }
-
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
-    </style>
-</head>
-
-<body class="min-h-screen bg-gray-50">
+@section('content')
+    @include('sections.header')
 
     <div class="max-w-3xl mx-auto px-4 py-8">
         <div class="mx-auto max-w-[420px]">
@@ -59,7 +13,7 @@
                 <div class="flip-card-inner">
 
                     {{-- FRONT --}}
-                    <div class="flip-card-front">
+                    <div id="membership-card" class="flip-card-front">
 
                         @php
                             $membershipUrl = route('membership.card', $membership->public_token);
@@ -102,12 +56,6 @@
 
                                 </div>
 
-                                <div class="rounded-full bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
-
-                                    TAP CARD
-
-                                </div>
-
                             </div>
 
                             <div class="mt-auto">
@@ -136,8 +84,7 @@
                                         {{ $membership->member_since?->format('d M Y') }}
                                     </div>
 
-                                    <div
-                                        class="mt-2 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
+                                    <div class="mt-2 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
 
                                         {{ strtoupper($membership->tier) }}
 
@@ -199,9 +146,9 @@
                                     @for ($i = 1; $i <= 15; $i++)
                                         <div
                                             class="flex h-10 w-10 items-center justify-center rounded-full border-2 text-[10px] font-bold
-        {{ $membership->stamp >= $i
-            ? 'border-white bg-white text-[#05643b]'
-            : 'border-white/30 bg-white/10 text-white/70' }}">
+                    {{ $membership->stamp >= $i
+                        ? 'border-white bg-white text-[#05643b]'
+                        : 'border-white/30 bg-white/10 text-white/70' }}">
 
                                             {{ $rewardMap[$i] ?? $i }}
 
@@ -232,6 +179,24 @@
                 </div>
 
             </label>
+
+            <div class="mt-5 flex flex-wrap justify-center gap-3">
+
+                <button onclick="downloadMembershipCard()"
+                    class="rounded-xl bg-[#05643b] px-5 py-3 text-sm font-medium text-white hover:bg-[#045533]">
+
+                    Download Card
+
+                </button>
+
+                <button onclick="downloadStoryCard()"
+                    class="rounded-xl border border-[#05643b] px-5 py-3 text-sm font-medium text-[#05643b] hover:bg-[#05643b]/5">
+
+                    Download Story
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -373,6 +338,253 @@
 
     </div>
 
-</body>
+    <div style="
+        position:absolute;
+        width:0;
+        height:0;
+        overflow:hidden;
+    ">
 
-</html>
+        <div id="membership-story" style="
+            width:1080px;
+            height:1920px;
+        ">
+
+            <div class="relative h-full w-full overflow-hidden bg-[#05643b]">
+
+                {{-- Background --}}
+                <div class="absolute inset-0 bg-gradient-to-b from-[#05643b] via-[#0b3d2c] to-[#04281d]">
+                </div>
+
+                <div class="absolute -top-64 -right-64 h-[900px] w-[900px] rounded-full border border-white/10">
+                </div>
+
+                <div class="absolute -bottom-64 -left-64 h-[1000px] w-[1000px] rounded-full border border-white/10">
+                </div>
+
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_35%)]">
+                </div>
+
+                {{-- Header --}}
+                <div class="absolute top-20 left-0 right-0 text-center text-white">
+
+                    <img src="{{ asset('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-80">
+
+                    <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
+
+                        THIS CARD BELONGS TO
+
+                    </div>
+
+                    <div class="mt-6 text-8xl font-black">
+
+                        {{ strtoupper($membership->customer->name) }}
+
+                    </div>
+
+                    <div class="mt-6 text-3xl text-white/75">
+
+                        Proud Member of Soklenn
+
+                    </div>
+
+                </div>
+
+                {{-- Card --}}
+                <div class="absolute left-1/2 top-[680px] -translate-x-1/2">
+
+                    <div
+                        class="relative h-[540px] w-[856px] overflow-hidden rounded-[48px] bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d] shadow-2xl">
+
+                        <div class="absolute -top-32 -right-32 h-[400px] w-[400px] rounded-full border border-white/10">
+                        </div>
+
+                        <div class="absolute -bottom-40 -left-20 h-[450px] w-[450px] rounded-full border border-white/10">
+                        </div>
+
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.15),transparent_30%)]">
+                        </div>
+
+                        <div class="relative flex h-full flex-col p-12 text-white">
+
+                            <div>
+
+                                <div class="text-xl uppercase tracking-[0.4em] text-white/70">
+
+                                    Soklenn Membership
+
+                                </div>
+
+                                <div class="mt-4 text-5xl font-black">
+
+                                    @if ($membership->isFamily())
+                                        ⭐ SOKLENN FAMILY
+                                    @else
+                                        SOKLENN MEMBER
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                            <div class="mt-auto">
+
+                                <div class="text-5xl font-bold">
+                                    {{ strtoupper($membership->customer->name) }}
+                                </div>
+
+                                <div class="mt-3 text-2xl text-white/70">
+                                    {{ $membership->member_code }}
+                                </div>
+
+                            </div>
+
+                            <div class="mt-8 flex items-end justify-between">
+
+                                <div>
+
+                                    <div class="text-lg uppercase tracking-wider text-white/60">
+
+                                        Member Since
+
+                                    </div>
+
+                                    <div class="mt-2 text-2xl font-medium">
+                                        {{ $membership->member_since?->format('d M Y') }}
+                                    </div>
+
+                                    <div class="mt-4 inline-flex rounded-full bg-white/15 px-5 py-2 text-lg font-semibold">
+
+                                        {{ strtoupper($membership->tier) }}
+
+                                    </div>
+
+                                </div>
+
+                                <div class="rounded-2xl bg-white p-4">
+
+                                    <img crossorigin="anonymous"
+                                        src="https://quickchart.io/qr?size=300&margin=1&text={{ urlencode($membershipUrl) }}"
+                                        alt="QR Membership" class="h-40 w-40">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Footer --}}
+                <div class="absolute bottom-40 left-0 right-0 text-center text-white">
+
+                    <div class="text-5xl font-light italic">
+
+                        Every step tells a story.
+
+                    </div>
+
+                    <div class="mt-8 text-3xl text-white/75">
+
+                        Thank you for being part of our journey.
+
+                    </div>
+
+                    <div class="mt-10 text-3xl text-white/60">
+
+                        #CUCISEPATUDISOKLENN
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        async function downloadMembershipCard() {
+            const button = event.currentTarget;
+
+            const originalText = button.innerHTML;
+
+            button.disabled = true;
+
+            button.innerHTML = `
+        <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <span>Generating...</span>
+    `;
+
+            try {
+
+                const node = document.getElementById('membership-card');
+
+                const dataUrl = await window.htmlToImage.toPng(node, {
+                    pixelRatio: 4,
+                    cacheBust: true,
+                });
+
+                const link = document.createElement('a');
+
+                link.download = 'membership-{{ $membership->member_code }}.png';
+
+                link.href = dataUrl;
+
+                link.click();
+
+                button.innerHTML = `
+            ✓ Downloaded
+        `;
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+
+                console.error(error);
+
+                button.innerHTML = 'Failed';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            }
+        }
+    </script>
+
+    <script>
+        async function downloadStoryCard() {
+            const node = document.getElementById('membership-story');
+
+            const dataUrl = await window.htmlToImage.toPng(
+                node, {
+                    pixelRatio: 2,
+                    cacheBust: true,
+                }
+            );
+
+            const link = document.createElement('a');
+
+            link.download =
+                'membership-story-{{ $membership->member_code }}.png';
+
+            link.href = dataUrl;
+
+            link.click();
+        }
+    </script>
+@endsection

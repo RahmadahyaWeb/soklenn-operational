@@ -1,6 +1,8 @@
 @extends('layouts.landing')
 
 @section('content')
+    @include('sections.header')
+
     @include('sections.hero')
 
     @include('sections.services')

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MembershipCardController;
+use App\Http\Controllers\MembershipLookupController;
 use Illuminate\Support\Facades\Route;
 
 // Route::livewire('/', 'pages::landing-page')
@@ -11,9 +12,19 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get(
-    '/member/{public_token}',
+    '/membership/{public_token}',
     MembershipCardController::class
 )->name('membership.card');
+
+Route::get(
+    '/membership',
+    [MembershipLookupController::class, 'index']
+)->name('membership.lookup');
+
+Route::post(
+    '/membership',
+    [MembershipLookupController::class, 'search']
+)->name('membership.lookup.search');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard', 'pages::dashboard.index')

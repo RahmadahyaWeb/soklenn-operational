@@ -369,7 +369,7 @@
                 {{-- Header --}}
                 <div class="absolute top-20 left-0 right-0 text-center text-white">
 
-                    <img src="{{ asset('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-80">
+                    <img src="{{ asset('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-72">
 
                     <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
 
@@ -392,7 +392,7 @@
                 </div>
 
                 {{-- Card --}}
-                <div class="absolute left-1/2 top-[680px] -translate-x-1/2">
+                <div class="absolute left-1/2 top-[740px] -translate-x-1/2">
 
                     <div
                         class="relative h-[540px] w-[856px] overflow-hidden rounded-[48px] bg-gradient-to-br from-[#05643b] via-[#0b3d2c] to-[#04281d] shadow-2xl">
@@ -494,7 +494,7 @@
 
                     </div>
 
-                    <div class="mt-10 text-3xl text-white/60">
+                    <div class="mt-10 text-3xl font-black tracking-wide text-white/60">
 
                         #CUCISEPATUDISOKLENN
 

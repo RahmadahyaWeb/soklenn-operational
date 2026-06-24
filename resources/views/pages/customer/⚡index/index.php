@@ -16,6 +16,8 @@ new #[Title('Customers')] class extends Component
 
     public $deleteId;
 
+    public ?Customer $selectedCustomer = null;
+
     public function mount()
     {
         $this->authorizeIndex(Customer::class);
@@ -57,5 +59,14 @@ new #[Title('Customers')] class extends Component
             $this->modal('delete-customer')->close();
 
         });
+    }
+
+    public function viewMembership(int $id): void
+    {
+        $this->selectedCustomer = Customer::with([
+            'membership.rewardClaims.reward',
+        ])->findOrFail($id);
+
+        $this->modal('customer-membership')->show();
     }
 };

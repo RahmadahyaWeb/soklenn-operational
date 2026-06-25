@@ -337,14 +337,16 @@
 
     <script>
         async function downloadMembershipCard() {
-            const button = event.currentTarget;
 
+            const button = event.currentTarget;
             const originalText = button.innerHTML;
 
             button.disabled = true;
+            button.innerHTML = 'Generating...';
 
             try {
 
+                // Generate PNG
                 const node = document.getElementById('membership-card');
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
@@ -352,14 +354,16 @@
                     cacheBust: true,
                 });
 
+                // Download ke user
                 const link = document.createElement('a');
 
                 link.download = 'membership-{{ $membership->member_code }}.png';
-
                 link.href = dataUrl;
-
                 link.click();
 
+                button.innerHTML = 'Saving...';
+
+                // Upload ke server
                 const response = await fetch(
                     "{{ route('membership.save-card', $membership) }}", {
                         method: 'POST',
@@ -373,21 +377,30 @@
                     }
                 );
 
-                console.log(response.status);
-                console.log(await response.text());
+                const result = await response.json();
 
-                button.innerHTML = `
-            ✓ Downloaded
-        `;
+                console.group('Membership Card');
+                console.log('HTTP Status :', response.status);
+                console.log('Response    :', result);
+                console.groupEnd();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message ?? 'Failed to save card.');
+                }
+
+                button.innerHTML = '✓ Success';
 
                 setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 2000);
+                    location.reload();
+                }, 1000);
 
             } catch (error) {
 
+                console.group('Membership Card Error');
                 console.error(error);
+                console.groupEnd();
+
+                alert(error.message);
 
                 button.innerHTML = 'Failed';
 
@@ -397,6 +410,7 @@
                 }, 2000);
 
             }
+
         }
     </script>
 

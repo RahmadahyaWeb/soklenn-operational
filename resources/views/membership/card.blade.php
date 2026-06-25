@@ -79,7 +79,7 @@
 
             <div class="mt-5 grid grid-cols-2 gap-3">
 
-                <button onclick="downloadMembershipCard()"
+                <button onclick="downloadMembershipCard(event)"
                     class="w-full rounded-xl bg-[#05643b] px-4 py-3 text-sm font-medium text-white hover:bg-[#045533]">
 
                     Download Card
@@ -333,9 +333,16 @@
     </div>
 
     <script>
-        async function downloadMembershipCard() {
+        async function downloadMembershipCard(event) {
 
             const button = event.currentTarget;
+
+            // Jika tombol sudah menjadi Refresh Page
+            if (button.dataset.mode === 'refresh') {
+                location.reload();
+                return;
+            }
+
             const originalText = button.innerHTML;
 
             button.disabled = true;
@@ -369,8 +376,6 @@
                     cacheBust: true,
                 });
 
-                console.log('PNG Generated');
-
                 button.innerHTML = 'Saving to Server...';
 
                 const response = await fetch(
@@ -386,11 +391,7 @@
                     }
                 );
 
-                console.log('HTTP Status:', response.status);
-
                 const responseText = await response.text();
-
-                console.log('Response:', responseText);
 
                 let result;
 
@@ -415,8 +416,6 @@
                     throw new Error(result.message ?? 'Save failed');
                 }
 
-                console.log('Saved to server');
-
                 button.innerHTML = 'Downloading...';
 
                 const link = document.createElement('a');
@@ -430,24 +429,10 @@
 
                 document.body.removeChild(link);
 
-                button.innerHTML = '✓ Card Saved';
-
-                setTimeout(() => {
-
-                    const reload = confirm(
-                        'Kartu berhasil dibuat.\n\n' +
-                        'Pastikan Anda sudah menyimpan gambar terlebih dahulu.\n\n' +
-                        'Tekan OK untuk melanjutkan.'
-                    );
-
-                    if (reload) {
-                        location.reload();
-                    } else {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }
-
-                }, 500);
+                // Ubah tombol menjadi Refresh
+                button.dataset.mode = 'refresh';
+                button.disabled = false;
+                button.innerHTML = '🔄 Refresh Page';
 
             } catch (error) {
 
@@ -532,7 +517,7 @@
 
                 document.body.appendChild(link);
 
-                window.open(dataUrl, '_blank');
+                // window.open(dataUrl, '_blank');
 
                 document.body.removeChild(link);
 

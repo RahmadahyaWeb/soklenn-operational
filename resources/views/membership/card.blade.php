@@ -428,17 +428,26 @@
 
                 link.click();
 
-                // window.open(dataUrl, '_blank');
-
                 document.body.removeChild(link);
-
-                console.log('Download started');
 
                 button.innerHTML = '✓ Card Saved';
 
                 setTimeout(() => {
-                    location.reload();
-                }, 1000);
+
+                    const reload = confirm(
+                        'Kartu berhasil dibuat.\n\n' +
+                        'Pastikan Anda sudah menyimpan gambar terlebih dahulu.\n\n' +
+                        'Tekan OK untuk melanjutkan.'
+                    );
+
+                    if (reload) {
+                        location.reload();
+                    } else {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }
+
+                }, 500);
 
             } catch (error) {
 

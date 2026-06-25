@@ -82,7 +82,7 @@
                                     {{ str($order->status)->replace('_', ' ')->title() }}
                                 </flux:badge>
 
-                                <flux:dropdown>
+                                {{-- <flux:dropdown>
 
                                     <flux:button size="sm" variant="subtle" icon="arrow-path">
                                         Update
@@ -99,7 +99,7 @@
 
                                     </flux:menu>
 
-                                </flux:dropdown>
+                                </flux:dropdown> --}}
 
                             </div>
 

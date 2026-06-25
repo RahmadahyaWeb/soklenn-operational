@@ -293,13 +293,14 @@
                 {{-- Card --}}
                 <div class="absolute left-1/2 top-[820px] -translate-x-1/2">
 
-                    <img src="{{ Storage::url($membership->card_image) }}" alt="Membership Card"
+                    <img src="{{ asset('storage/' . $membership->card_image) }}" crossorigin="anonymous" loading="eager"
+                        decoding="sync" fetchpriority="high" alt="Membership Card"
                         style="
-            width: 960px;
-            max-width: none;
-            border-radius: 60px;
-            display: block;
-        ">
+        width:960px;
+        max-width:none;
+        border-radius:60px;
+        display:block;
+    ">
 
                 </div>
                 {{-- Footer --}}
@@ -472,20 +473,37 @@
 
                 await document.fonts.ready;
 
-                await Promise.all(
-                    Array.from(node.querySelectorAll('img')).map(img => {
+                const images = Array.from(node.querySelectorAll('img'));
 
-                        if (img.complete && img.naturalWidth > 0) {
-                            return Promise.resolve();
+                await Promise.all(
+                    images.map(async (img) => {
+
+                        if (!img.complete || img.naturalWidth === 0) {
+
+                            await new Promise((resolve, reject) => {
+
+                                img.onload = resolve;
+                                img.onerror = reject;
+
+                            });
+
                         }
 
-                        return new Promise(resolve => {
-                            img.onload = resolve;
-                            img.onerror = resolve;
-                        });
+                        if (img.decode) {
+
+                            try {
+                                await img.decode();
+                            } catch (e) {
+                                console.warn('Decode failed:', img.src);
+                            }
+
+                        }
 
                     })
                 );
+
+                // Safari membutuhkan waktu untuk melakukan compositing layer
+                await new Promise(resolve => setTimeout(resolve, 300));
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
                     pixelRatio: 2,
@@ -501,7 +519,11 @@
 
                 link.href = dataUrl;
 
+                document.body.appendChild(link);
+
                 link.click();
+
+                document.body.removeChild(link);
 
                 button.innerHTML = '✓ Story Downloaded';
 

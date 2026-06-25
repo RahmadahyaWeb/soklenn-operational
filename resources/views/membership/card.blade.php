@@ -523,7 +523,7 @@
 
                 document.body.appendChild(link);
 
-                link.click();
+                window.open(dataUrl, '_blank');
 
                 document.body.removeChild(link);
 

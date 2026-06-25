@@ -57,8 +57,10 @@
 
             <div class="rounded-xl bg-white p-2">
 
-                <img src="https://quickchart.io/qr?size=120&margin=1&text={{ urlencode($membershipUrl) }}"
-                    alt="QR Membership" class="h-14 w-14 sm:h-16 sm:w-16">
+                {{-- <img src="https://quickchart.io/qr?size=120&margin=1&text={{ urlencode($membershipUrl) }}"
+                    alt="QR Membership" class="h-14 w-14 sm:h-16 sm:w-16"> --}}
+
+                <div class="w-16 h-16 bg-white"></div>
 
             </div>
 

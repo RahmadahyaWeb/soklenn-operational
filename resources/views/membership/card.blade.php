@@ -353,9 +353,11 @@
                             return Promise.resolve();
                         }
 
-                        return new Promise(resolve => {
+                        return new Promise((resolve, reject) => {
+
                             img.onload = resolve;
-                            img.onerror = resolve;
+                            img.onerror = reject;
+
                         });
 
                     })
@@ -366,13 +368,7 @@
                     cacheBust: true,
                 });
 
-                button.innerHTML = 'Downloading...';
-
-                const link = document.createElement('a');
-
-                link.download = 'membership-{{ $membership->member_code }}.png';
-                link.href = dataUrl;
-                link.click();
+                console.log('PNG Generated');
 
                 button.innerHTML = 'Saving to Server...';
 
@@ -389,11 +385,51 @@
                     }
                 );
 
-                const result = await response.json();
+                console.log('HTTP Status:', response.status);
 
-                if (!response.ok || !result.success) {
-                    throw new Error(result.message ?? 'Failed to save card.');
+                const responseText = await response.text();
+
+                console.log('Response:', responseText);
+
+                let result;
+
+                try {
+
+                    result = JSON.parse(responseText);
+
+                } catch (e) {
+
+                    throw new Error(
+                        'Server tidak mengembalikan JSON.\n\n' +
+                        responseText.substring(0, 300)
+                    );
+
                 }
+
+                if (!response.ok) {
+                    throw new Error(result.message ?? 'HTTP Error');
+                }
+
+                if (!result.success) {
+                    throw new Error(result.message ?? 'Save failed');
+                }
+
+                console.log('Saved to server');
+
+                button.innerHTML = 'Downloading...';
+
+                const link = document.createElement('a');
+
+                link.download = 'membership-{{ $membership->member_code }}.png';
+                link.href = dataUrl;
+
+                document.body.appendChild(link);
+
+                link.click();
+
+                document.body.removeChild(link);
+
+                console.log('Download started');
 
                 button.innerHTML = '✓ Card Saved';
 
@@ -414,7 +450,7 @@
                     button.innerHTML = originalText;
                     button.disabled = false;
 
-                }, 2000);
+                }, 2500);
 
             }
 

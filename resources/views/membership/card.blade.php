@@ -292,7 +292,7 @@
                 </div>
 
                 {{-- Card --}}
-                <div class="absolute left-1/2 top-[820px] -translate-x-1/2">
+                <div class="absolute left-1/2 top-[800px] -translate-x-1/2">
 
                     <img src="{{ asset('storage/' . $membership->card_image) }}" crossorigin="anonymous" loading="eager"
                         decoding="sync" fetchpriority="high" alt="Membership Card"

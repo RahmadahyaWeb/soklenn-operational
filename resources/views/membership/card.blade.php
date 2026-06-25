@@ -502,7 +502,7 @@
                 await new Promise(resolve => setTimeout(resolve, 300));
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
-                    pixelRatio: 4,
+                    pixelRatio: 2,
                     cacheBust: true,
                 });
 

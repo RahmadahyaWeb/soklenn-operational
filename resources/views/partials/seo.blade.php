@@ -36,8 +36,10 @@
     content="Jasa cuci sepatu profesional di Banjarbaru dengan layanan Deep Clean, Whitening, Unyellowing, dan Pick Up & Delivery.">
 <meta name="twitter:image" content="{{ asset('og-soklenn.jpg') }}">
 
-<link rel="icon" href="{{ asset('logo-soklenn-bg.png') }}" sizes="any">
-<link rel="icon" href="{{ asset('logo-soklenn-bg.png') }}" type="image/png">
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ asset('android-chrome-192x192.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
 <script type="application/ld+json">
 {!! json_encode([

@@ -354,6 +354,9 @@
                     cacheBust: true,
                 });
 
+                console.log('Data URL Length:', dataUrl.length);
+                console.log('Data URL Prefix:', dataUrl.substring(0, 50));
+
                 // Download ke user
                 const link = document.createElement('a');
 

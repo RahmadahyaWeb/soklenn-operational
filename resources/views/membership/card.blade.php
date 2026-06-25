@@ -360,7 +360,7 @@
 
                 link.click();
 
-                await fetch(
+                const response = await fetch(
                     "{{ route('membership.save-card', $membership) }}", {
                         method: 'POST',
                         headers: {
@@ -372,6 +372,9 @@
                         })
                     }
                 );
+
+                console.log(response.status);
+                console.log(await response.text());
 
                 button.innerHTML = `
             ✓ Downloaded

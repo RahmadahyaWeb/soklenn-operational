@@ -270,23 +270,27 @@
 
                     <img id="story-logo" src="{{ url('logo-soklenn-real-putih.png') }}" alt="Soklenn" loading="eager"
                         decoding="sync" fetchpriority="high" crossorigin="anonymous"
-                        style="width:400px; display:block; margin:auto;">
+                        style="
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+            top:0;
+            width:400px;
+        ">
 
-                    <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
+                    <div style="padding-top:180px;">
 
-                        THIS CARD BELONGS TO
+                        <div class="text-4xl uppercase tracking-[0.4em] text-white/60">
+                            THIS CARD BELONGS TO
+                        </div>
 
-                    </div>
+                        <div class="mt-6 text-8xl font-black">
+                            {{ strtoupper($membership->customer->name) }}
+                        </div>
 
-                    <div class="mt-6 text-8xl font-black">
-
-                        {{ strtoupper($membership->customer->name) }}
-
-                    </div>
-
-                    <div class="mt-6 text-3xl text-white/75">
-
-                        Proud Member of Soklenn
+                        <div class="mt-6 text-3xl text-white/75">
+                            Proud Member of Soklenn
+                        </div>
 
                     </div>
 

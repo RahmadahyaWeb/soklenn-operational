@@ -519,6 +519,8 @@
 
                 // window.open(dataUrl, '_blank');
 
+                link.click();
+
                 document.body.removeChild(link);
 
                 button.innerHTML = '✓ Story Downloaded';

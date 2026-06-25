@@ -430,7 +430,7 @@
 
                 window.open(dataUrl, '_blank');
 
-                document.body.removeChild(link);
+                // document.body.removeChild(link);
 
                 console.log('Download started');
 

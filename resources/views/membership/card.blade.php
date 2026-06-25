@@ -373,7 +373,7 @@
                 );
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
-                    pixelRatio: 4,
+                    pixelRatio: 2,
                     cacheBust: true,
                 });
 
@@ -526,7 +526,7 @@
                 }
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
-                    pixelRatio: 1,
+                    pixelRatio: 2,
                     cacheBust: true,
                 });
 

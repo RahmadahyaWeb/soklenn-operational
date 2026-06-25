@@ -342,31 +342,44 @@
             const originalText = button.innerHTML;
 
             button.disabled = true;
-            button.innerHTML = 'Generating...';
+            button.innerHTML = 'Generating Card...';
 
             try {
 
-                // Generate PNG
                 const node = document.getElementById('membership-card');
+
+                await document.fonts.ready;
+
+                await Promise.all(
+                    Array.from(node.querySelectorAll('img')).map(img => {
+
+                        if (img.complete && img.naturalWidth > 0) {
+                            return Promise.resolve();
+                        }
+
+                        return new Promise(resolve => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                        });
+
+                    })
+                );
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
                     pixelRatio: 4,
                     cacheBust: true,
                 });
 
-                console.log('Data URL Length:', dataUrl.length);
-                console.log('Data URL Prefix:', dataUrl.substring(0, 50));
+                button.innerHTML = 'Downloading...';
 
-                // Download ke user
                 const link = document.createElement('a');
 
                 link.download = 'membership-{{ $membership->member_code }}.png';
                 link.href = dataUrl;
                 link.click();
 
-                button.innerHTML = 'Saving...';
+                button.innerHTML = 'Saving to Server...';
 
-                // Upload ke server
                 const response = await fetch(
                     "{{ route('membership.save-card', $membership) }}", {
                         method: 'POST',
@@ -382,16 +395,11 @@
 
                 const result = await response.json();
 
-                console.group('Membership Card');
-                console.log('HTTP Status :', response.status);
-                console.log('Response    :', result);
-                console.groupEnd();
-
                 if (!response.ok || !result.success) {
                     throw new Error(result.message ?? 'Failed to save card.');
                 }
 
-                button.innerHTML = '✓ Success';
+                button.innerHTML = '✓ Card Saved';
 
                 setTimeout(() => {
                     location.reload();
@@ -399,17 +407,17 @@
 
             } catch (error) {
 
-                console.group('Membership Card Error');
                 console.error(error);
-                console.groupEnd();
-
-                alert(error.message);
 
                 button.innerHTML = 'Failed';
 
+                alert(error.message ?? 'Something went wrong.');
+
                 setTimeout(() => {
+
                     button.innerHTML = originalText;
                     button.disabled = false;
+
                 }, 2000);
 
             }
@@ -419,23 +427,76 @@
 
     <script>
         async function downloadStoryCard() {
-            const node = document.getElementById('membership-story');
 
-            const dataUrl = await window.htmlToImage.toPng(
-                node, {
+            const button = event.currentTarget;
+            const originalText = button.innerHTML;
+
+            button.disabled = true;
+            button.innerHTML = 'Generating Story...';
+
+            try {
+
+                const node = document.getElementById('membership-story');
+
+                await document.fonts.ready;
+
+                await Promise.all(
+                    Array.from(node.querySelectorAll('img')).map(img => {
+
+                        if (img.complete && img.naturalWidth > 0) {
+                            return Promise.resolve();
+                        }
+
+                        return new Promise(resolve => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                        });
+
+                    })
+                );
+
+                const dataUrl = await window.htmlToImage.toPng(node, {
                     pixelRatio: 2,
                     cacheBust: true,
-                }
-            );
+                });
 
-            const link = document.createElement('a');
+                button.innerHTML = 'Downloading...';
 
-            link.download =
-                'membership-story-{{ $membership->member_code }}.png';
+                const link = document.createElement('a');
 
-            link.href = dataUrl;
+                link.download =
+                    'membership-story-{{ $membership->member_code }}.png';
 
-            link.click();
+                link.href = dataUrl;
+
+                link.click();
+
+                button.innerHTML = '✓ Story Downloaded';
+
+                setTimeout(() => {
+
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+
+                }, 2000);
+
+            } catch (error) {
+
+                console.error(error);
+
+                button.innerHTML = 'Failed';
+
+                alert(error.message ?? 'Failed to generate story.');
+
+                setTimeout(() => {
+
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+
+                }, 2000);
+
+            }
+
         }
     </script>
 @endsection

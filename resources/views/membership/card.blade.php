@@ -270,7 +270,7 @@
 
                     <img id="story-logo" src="{{ url('logo-soklenn-real-putih.png') }}" alt="Soklenn" loading="eager"
                         decoding="sync" fetchpriority="high" crossorigin="anonymous"
-                        style="width:320px; display:block; margin:auto;">
+                        style="width:400px; display:block; margin:auto;">
 
                     <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
 

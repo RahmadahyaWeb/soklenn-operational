@@ -1,4 +1,4 @@
-<div id="membership-card" class="flip-card-front">
+<div id="membership-card" class="membership-card">
 
     @php
         $membershipUrl = route('membership.card', $membership->public_token);
@@ -49,7 +49,7 @@
         <div class="mt-5 flex items-end justify-between">
 
             <div
-                class="mt-3 inline-flex items-center rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-bold tracking-wide backdrop-blur">
+                class="mt-3 inline-flex items-center rounded-full bg-white/20 px-3 py-1.5 text-[11px] font-bold tracking-wide">
 
                 {{ strtoupper($membership->tier) }}
 

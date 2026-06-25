@@ -46,21 +46,31 @@ html {
 }
 
 .flip-card {
-    display: block;
+    position: relative;
     width: 100%;
     aspect-ratio: 85.6 / 53.98;
-    perspective: 1000px;
+
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
 }
 
 .flip-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
+
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+
+    will-change: transform;
+
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 }
 
-.peer:checked + .flip-card .flip-card-inner {
+.flip-card.flipped .flip-card-inner {
     transform: rotateY(180deg);
 }
 
@@ -68,16 +78,46 @@ html {
 .flip-card-back {
     position: absolute;
     inset: 0;
-    border-radius: 32px;
+
     overflow: hidden;
+    border-radius: 32px;
+
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+
+    will-change: transform;
+
+    transform-origin: center center;
+
+    -webkit-font-smoothing: antialiased;
 }
 
+/* FRONT */
+
+.flip-card-front {
+    z-index: 2;
+
+    transform: rotateY(0deg) translateZ(1px);
+}
+
+/* BACK */
+
 .flip-card-back {
-    transform: rotateY(180deg);
+    z-index: 1;
+
+    transform: rotateY(180deg) translateZ(1px);
 }
 
 .membership-card {
-    width: 856px;
-    height: 540px;
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 32px;
+    overflow: hidden;
 }

@@ -6,11 +6,9 @@
     <div class="max-w-[420px] mx-auto px-4 py-8">
         <div class="mx-auto w-full max-w-[420px]">
 
-            <input type="checkbox" id="flip-card" class="peer hidden">
+            <div id="flip-card" class="flip-card cursor-pointer">
 
-            <label for="flip-card" class="flip-card cursor-pointer">
-
-                <div class="flip-card-inner">
+                <div id="flip-card-inner" class="flip-card-inner">
 
                     {{-- FRONT --}}
                     <div class="flip-card-front">
@@ -33,23 +31,21 @@
                             <div class="text-center">
 
                                 <div class="text-[9px] sm:text-[11px] uppercase tracking-[0.35em] text-white/70">
-
-                                    Stamp Card
-
+                                    Stamp
                                 </div>
 
                             </div>
 
                             <div class="mt-5 flex justify-center">
 
-                                <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+                                <div class="grid grid-cols-5 gap-2 sm:gap-3">
 
                                     @for ($i = 1; $i <= 15; $i++)
                                         <div
-                                            class="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border-2 text-[9px] sm:text-[10px] font-bold
-                                    {{ $membership->stamp >= $i
-                                        ? 'border-white bg-white text-[#05643b]'
-                                        : 'border-white/30 bg-white/10 text-white/70' }}">
+                                            class="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 text-[10px] sm:text-xs font-bold
+            {{ $membership->stamp >= $i
+                ? 'border-white bg-white text-[#05643b]'
+                : 'border-white/30 bg-white/10 text-white/70' }}">
 
                                             {{ $rewardMap[$i] ?? $i }}
 
@@ -79,7 +75,7 @@
 
                 </div>
 
-            </label>
+            </div>
 
             <div class="mt-5 grid grid-cols-2 gap-3">
 
@@ -498,5 +494,15 @@
             }
 
         }
+    </script>
+
+    <script>
+        const flipCard = document.getElementById('flip-card');
+
+        flipCard.addEventListener('click', function() {
+
+            flipCard.classList.toggle('flipped');
+
+        });
     </script>
 @endsection

@@ -419,14 +419,16 @@
 
                 button.innerHTML = 'Downloading...';
 
-                const link = document.createElement('a');
+                // const link = document.createElement('a');
 
-                link.download = 'membership-{{ $membership->member_code }}.png';
-                link.href = dataUrl;
+                // link.download = 'membership-{{ $membership->member_code }}.png';
+                // link.href = dataUrl;
 
-                document.body.appendChild(link);
+                // document.body.appendChild(link);
 
-                link.click();
+                // link.click();
+
+                window.open(dataUrl, '_blank');
 
                 document.body.removeChild(link);
 
@@ -506,7 +508,7 @@
                 await new Promise(resolve => setTimeout(resolve, 300));
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
-                    pixelRatio: 2,
+                    pixelRatio: 1,
                     cacheBust: true,
                 });
 

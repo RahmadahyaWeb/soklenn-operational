@@ -268,7 +268,8 @@
                 {{-- Header --}}
                 <div class="absolute top-20 left-0 right-0 text-center text-white">
 
-                    <img src="{{ asset('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-72">
+                    <img id="story-logo" src="{{ url('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-72"
+                        loading="eager" decoding="sync" fetchpriority="high" crossorigin="anonymous">
 
                     <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
 
@@ -500,6 +501,29 @@
 
                 // Safari membutuhkan waktu untuk melakukan compositing layer
                 await new Promise(resolve => setTimeout(resolve, 300));
+
+                const logo = document.getElementById('story-logo');
+
+                if (logo) {
+
+                    if (!logo.complete || logo.naturalWidth === 0) {
+
+                        await new Promise((resolve, reject) => {
+
+                            logo.onload = resolve;
+                            logo.onerror = reject;
+
+                        });
+
+                    }
+
+                    if (logo.decode) {
+                        try {
+                            await logo.decode();
+                        } catch (e) {}
+                    }
+
+                }
 
                 const dataUrl = await window.htmlToImage.toPng(node, {
                     pixelRatio: 2,

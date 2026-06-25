@@ -268,8 +268,9 @@
                 {{-- Header --}}
                 <div class="absolute top-20 left-0 right-0 text-center text-white">
 
-                    <img id="story-logo" src="{{ url('logo-soklenn-real-putih.png') }}" alt="Soklenn" class="mx-auto w-72"
-                        loading="eager" decoding="sync" fetchpriority="high" crossorigin="anonymous">
+                    <img id="story-logo" src="{{ url('logo-soklenn-real-putih.png') }}" alt="Soklenn" loading="eager"
+                        decoding="sync" fetchpriority="high" crossorigin="anonymous"
+                        style="width:320px; display:block; margin:auto;">
 
                     <div class="mt-12 text-4xl uppercase tracking-[0.4em] text-white/60">
 

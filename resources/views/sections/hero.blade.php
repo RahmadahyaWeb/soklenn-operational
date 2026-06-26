@@ -2,14 +2,58 @@
 <section class="relative isolate overflow-hidden bg-[#0B3A2F]">
 
     {{-- Background --}}
-    <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,.10),transparent_35%)]">
+    <div class="absolute inset-0 overflow-hidden">
+
+        {{-- Base --}}
+        <div class="absolute inset-0 bg-[#0B3A2F]"></div>
+
+        {{-- Diagonal Accent --}}
+        <div class="absolute -right-40 top-0 h-full w-[55%] -skew-x-12 bg-[#0F4A3B]/60">
         </div>
-        <div class="absolute -top-40 -left-32 w-[500px] h-[500px] rounded-full bg-emerald-400/10 blur-3xl"></div>
-        <div class="absolute -bottom-48 -right-24 w-[420px] h-[420px] rounded-full bg-emerald-300/10 blur-3xl"></div>
-        <div class="absolute inset-0 opacity-[0.04]"
-            style="background-image:linear-gradient(to right,#fff 1px,transparent 1px),linear-gradient(to bottom,#fff 1px,transparent 1px);background-size:72px 72px;">
+
+        {{-- Soft Circle --}}
+        <div class="absolute -left-48 -bottom-48 h-[520px] w-[520px] rounded-full bg-[#145944]/40">
         </div>
+
+        {{-- Shoe Pattern --}}
+        <svg class="absolute right-0 top-0 h-full w-[45%] opacity-[0.035]" viewBox="0 0 500 900" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+
+            <g stroke="white" stroke-width="2">
+
+                <circle cx="150" cy="80" r="22" />
+
+                <circle cx="240" cy="160" r="22" />
+
+                <circle cx="330" cy="240" r="22" />
+
+                <circle cx="150" cy="320" r="22" />
+
+                <circle cx="240" cy="400" r="22" />
+
+                <circle cx="330" cy="480" r="22" />
+
+                <circle cx="150" cy="560" r="22" />
+
+                <circle cx="240" cy="640" r="22" />
+
+                <circle cx="330" cy="720" r="22" />
+
+                <circle cx="150" cy="800" r="22" />
+
+            </g>
+
+        </svg>
+
+        {{-- Noise --}}
+        <div class="absolute inset-0 opacity-[0.03]"
+            style="
+            background-image:
+            radial-gradient(rgba(255,255,255,.15) 0.8px, transparent 0.8px);
+            background-size:18px 18px;
+        ">
+        </div>
+
     </div>
 
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8 pt-14 md:pt-20 lg:pt-28 pb-16 lg:pb-24">

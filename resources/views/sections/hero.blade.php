@@ -118,12 +118,18 @@
 
                         <div class="grid grid-cols-2 gap-4 p-6">
 
-                            <div class="aspect-square rounded-2xl bg-zinc-100 overflow-hidden">
-                                <img src="{{ asset('before.png') }}" class="w-full h-full object-cover" alt="Before">
+                            <div class="rounded-2xl bg-white p-2 shadow-sm ring-1 ring-zinc-200">
+                                <div class="aspect-square overflow-hidden rounded-xl">
+                                    <img src="{{ asset('before.png') }}" class="h-full w-full object-cover"
+                                        alt="Before">
+                                </div>
                             </div>
 
-                            <div class="aspect-square rounded-2xl bg-zinc-100 overflow-hidden">
-                                <img src="{{ asset('after.png') }}" class="w-full h-full object-cover" alt="After">
+                            <div class="rounded-2xl bg-white p-2 shadow-sm ring-1 ring-zinc-200">
+                                <div class="aspect-square overflow-hidden rounded-xl">
+                                    <img src="{{ asset('after.png') }}" class="h-full w-full object-cover"
+                                        alt="After">
+                                </div>
                             </div>
 
                         </div>

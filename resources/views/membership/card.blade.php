@@ -3,7 +3,7 @@
 @section('content')
     @include('sections.header')
 
-    <div class="max-w-[420px] mx-auto px-4 py-8">
+    <div class="max-w-[420px] mx-auto px-4 py-8 space-y-6">
         <div class="mx-auto w-full max-w-[420px]">
 
             <div id="flip-card" class="flip-card cursor-pointer">
@@ -97,139 +97,193 @@
 
             </div>
 
+            <div class="mt-5 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14m-6 0l-4.553 2.276A1 1 0 013 15.382V8.618a1 1 0 011.447-.894L9 10m6 0V6a3 3 0 10-6 0v4m6 0H9" />
+
+                </svg>
+
+                <p class="text-sm leading-6 text-amber-800">
+                    <span class="font-semibold">Tips:</span>
+                    Ketuk kartu membership untuk membalik kartu dan melihat bagian belakang yang berisi
+                    progress stamp kamu.
+                </p>
+
+            </div>
+
         </div>
 
-        {{-- Next Reward --}}
-        <div class="mt-6 rounded-3xl bg-white p-6 shadow-sm">
 
-            <h2 class="text-lg font-bold text-gray-900">
-                Next Reward
-            </h2>
+        {{-- Membership Information --}}
+        <div class="space-y-6">
 
-            @if ($nextReward)
-                <div class="mt-4">
+            {{-- Next Reward --}}
+            <div class="rounded-3xl bg-white p-6 shadow-sm">
 
-                    <div class="text-xl font-semibold text-[#05643b]">
-                        {{ $nextReward->name }}
-                    </div>
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900">
+                        Reward Berikutnya
+                    </h2>
 
-                    <div class="mt-2 text-sm text-gray-500">
-
-                        Butuh
-                        <span class="font-semibold">
-                            {{ $nextReward->required_stamp - $membership->stamp }}
+                    @if ($nextReward)
+                        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                            {{ $membership->stamp }} Stamp
                         </span>
-                        stamp lagi
-
-                    </div>
-
+                    @endif
                 </div>
-            @else
-                <div class="mt-4 text-green-600 font-semibold">
-                    🎉 Selamat! Anda telah mencapai reward tertinggi.
-                </div>
-            @endif
 
-        </div>
+                @if ($nextReward)
+                    @php
+                        $remaining = max($nextReward->required_stamp - $membership->stamp, 0);
+                        $percent = min(($membership->stamp / $nextReward->required_stamp) * 100, 100);
+                    @endphp
 
-        {{-- Available Rewards --}}
-        <div class="mt-6 rounded-3xl bg-white p-6 shadow-sm">
+                    <div class="mt-6">
 
-            <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-bold text-[#05643b]">
+                            {{ $nextReward->name }}
+                        </h3>
 
-                <h2 class="text-lg font-bold text-gray-900">
-                    🎁 Reward Saya
-                </h2>
+                        <p class="mt-2 text-gray-500">
+                            Tinggal <strong>{{ $remaining }} stamp</strong> lagi untuk mendapatkan reward ini.
+                        </p>
 
-                <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-
-                    {{ $availableRewards->count() }} Reward
-
-                </span>
-
-            </div>
-
-            <div class="mt-4 space-y-3">
-
-                @forelse ($availableRewards as $claim)
-                    <div class="rounded-2xl border border-green-200 bg-green-50 p-4">
-
-                        <div class="font-semibold text-green-800">
-                            {{ $claim->reward->name }}
+                        <div class="mt-5 h-3 rounded-full bg-gray-100 overflow-hidden">
+                            <div class="h-full rounded-full bg-[#05643b]" style="width: {{ $percent }}%">
+                            </div>
                         </div>
 
-                        <div class="mt-1 text-sm text-green-700">
-                            Diperoleh
-                            {{ $claim->claimed_at?->format('d M Y') }}
+                        <div class="mt-2 flex justify-between text-xs text-gray-500">
+                            <span>{{ $membership->stamp }} Stamp</span>
+                            <span>{{ $nextReward->required_stamp }} Stamp</span>
                         </div>
 
                     </div>
-
-                @empty
-
-                    <div class="text-center text-gray-500 py-6">
-                        Belum ada reward tersedia.
+                @else
+                    <div class="mt-6 rounded-2xl bg-green-50 border border-green-200 p-5 text-green-700 font-semibold">
+                        🎉 Selamat! Semua reward membership sudah berhasil kamu capai.
                     </div>
-                @endforelse
+                @endif
 
             </div>
 
-        </div>
+            {{-- Available Rewards --}}
+            <div class="rounded-3xl bg-white p-6 shadow-sm">
 
-        {{-- Reward History --}}
-        <div class="mt-6 rounded-3xl bg-white p-6 shadow-sm">
+                <div class="flex items-center justify-between">
 
-            <h2 class="text-lg font-bold text-gray-900">
-                Reward History
-            </h2>
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900">
+                            Reward Siap Dipakai
+                        </h2>
 
-            <div class="mt-4 space-y-3">
+                        <p class="text-sm text-gray-500">
+                            Gunakan reward kapan saja saat melakukan treatment.
+                        </p>
+                    </div>
 
-                @forelse ($usedRewards as $claim)
-                    <div class="rounded-2xl border p-4">
+                    <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                        {{ $availableRewards->count() }}
+                    </span>
 
-                        <div class="flex items-start justify-between">
+                </div>
 
-                            <div>
+                <div class="mt-5 space-y-4">
 
-                                <div class="font-semibold">
-                                    {{ $claim->reward->name }}
+                    @forelse ($availableRewards as $claim)
+                        <div class="rounded-2xl border border-green-200 bg-green-50 p-5">
+
+                            <div class="flex items-start justify-between">
+
+                                <div>
+
+                                    <h3 class="font-semibold text-green-800">
+                                        {{ $claim->reward->name }}
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-green-700">
+                                        Didapat pada {{ $claim->claimed_at?->format('d M Y') }}
+                                    </p>
+
                                 </div>
 
-                                <div class="mt-1 text-sm text-gray-500">
-
-                                    Digunakan:
-                                    {{ $claim->used_at?->format('d M Y') }}
-
-                                </div>
-
-                                @if ($claim->order)
-                                    <div class="text-sm text-gray-500">
-
-                                        Invoice:
-                                        {{ $claim->order->invoice_number }}
-
-                                    </div>
-                                @endif
+                                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-green-700">
+                                    Siap Digunakan
+                                </span>
 
                             </div>
 
-                            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                        </div>
 
-                                Used
+                    @empty
 
-                            </span>
+                        <div class="rounded-2xl border border-dashed p-8 text-center text-gray-500">
+                            Belum ada reward yang bisa digunakan.
+                        </div>
+                    @endforelse
+
+                </div>
+
+            </div>
+
+            {{-- Reward History --}}
+            <div class="rounded-3xl bg-white p-6 shadow-sm">
+
+                <h2 class="text-lg font-bold text-gray-900">
+                    Riwayat Reward
+                </h2>
+
+                <div class="mt-6 space-y-5">
+
+                    @forelse ($usedRewards as $claim)
+                        <div class="flex gap-4">
+
+                            <div class="mt-1 h-3 w-3 rounded-full bg-[#05643b]"></div>
+
+                            <div class="flex-1 rounded-2xl border p-4">
+
+                                <div class="flex justify-between items-start">
+
+                                    <div>
+
+                                        <h3 class="font-semibold text-gray-900">
+                                            {{ $claim->reward->name }}
+                                        </h3>
+
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            Digunakan pada {{ $claim->used_at?->format('d M Y') }}
+                                        </p>
+
+                                        @if ($claim->order)
+                                            <p class="mt-1 text-sm text-gray-500">
+                                                Invoice : {{ $claim->order->invoice_number }}
+                                            </p>
+                                        @endif
+
+                                    </div>
+
+                                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                                        Selesai
+                                    </span>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    @empty
 
-                @empty
+                        <div class="rounded-2xl border border-dashed p-8 text-center text-gray-500">
+                            Belum ada riwayat reward.
+                        </div>
+                    @endforelse
 
-                    <div class="text-center text-gray-500 py-6">
-                        Belum ada riwayat reward.
-                    </div>
-                @endforelse
+                </div>
 
             </div>
 

@@ -392,12 +392,11 @@
         <div id="reward-popup"
             class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-5">
 
-            <div class="relative w-full max-w-sm overflow-hidden rounded-[28px] bg-white shadow-2xl animate-popup">
+            <div class="relative w-full max-w-sm overflow-hidden rounded-[32px] bg-white shadow-2xl animate-popup">
 
-                {{-- Background --}}
-                <div class="absolute inset-0">
-                    <div class="absolute -top-20 -left-20 h-44 w-44 rounded-full bg-green-100 blur-3xl"></div>
-                    <div class="absolute -bottom-20 -right-20 h-44 w-44 rounded-full bg-yellow-100 blur-3xl"></div>
+                {{-- Premium Background --}}
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(5,100,59,.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(255,200,0,.08),transparent_45%)]">
                 </div>
 
                 <div class="relative p-6">
@@ -407,10 +406,11 @@
 
                         <div class="relative">
 
-                            <div class="absolute inset-0 scale-125 rounded-full bg-[#05643b]/20 blur-xl"></div>
+                            <div class="absolute inset-0 scale-125 rounded-full bg-[#05643b]/15 blur-xl">
+                            </div>
 
                             <div
-                                class="relative flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-4xl font-black text-white">
+                                class="relative flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-5xl font-black text-white shadow-lg">
 
                                 {{ $membership->stamp }}
 
@@ -421,56 +421,83 @@
                     </div>
 
                     {{-- Title --}}
-                    <h2 class="mt-5 text-center text-3xl font-black text-[#05643b]">
+                    <h2 class="mt-5 text-center text-4xl font-black text-[#05643b]">
                         🎉 Selamat!
                     </h2>
 
-                    <p class="mt-2 text-center text-lg font-bold">
+                    <p class="mt-3 text-center text-2xl font-bold leading-tight text-gray-900">
                         Kamu telah mengumpulkan
                         <span class="text-[#05643b]">
                             {{ $membership->stamp }} stamp
                         </span>
                     </p>
 
-                    <p class="mt-2 text-center text-sm leading-6 text-gray-500">
-                        Terima kasih telah mempercayakan perawatan sepatumu kepada Soklenn.
+                    <p class="mt-3 text-center text-base leading-7 text-gray-500">
+                        Terima kasih telah mempercayakan perawatan sepatumu kepada
+                        <span class="font-semibold text-[#05643b]">
+                            Soklenn.
+                        </span>
                     </p>
 
+                    {{-- Next Reward --}}
                     @if ($nextReward)
-                        <div class="mt-5 rounded-2xl bg-green-50 p-4">
+                        <div class="mt-6 flex items-center gap-4 rounded-2xl border border-green-100 bg-green-50/80 p-4">
 
-                            <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-[#05643b] text-3xl shadow">
 
-                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#05643b] text-xl">
+                                🎁
 
-                                    🎁
+                            </div>
+
+                            <div class="min-w-0">
+
+                                <div class="text-xs font-bold uppercase tracking-wider text-[#05643b]">
+
+                                    Reward Berikutnya
 
                                 </div>
 
-                                <div class="flex-1">
+                                <div class="mt-1 truncate text-2xl font-black text-gray-900">
 
-                                    <div class="text-xs font-semibold uppercase tracking-wide text-[#05643b]">
-                                        Reward Berikutnya
-                                    </div>
+                                    {{ $nextReward->name }}
 
-                                    <div class="font-bold">
-                                        {{ $nextReward->name }}
-                                    </div>
+                                </div>
 
-                                    <div class="text-sm text-gray-500">
-                                        {{ $nextReward->required_stamp - $membership->stamp }}
+                                <div class="mt-1 text-sm text-gray-500">
+
+                                    Tinggal
+                                    <span class="font-bold text-[#05643b]">
+                                        {{ max($nextReward->required_stamp - $membership->stamp, 0) }}
                                         stamp lagi
-                                    </div>
+                                    </span>
 
                                 </div>
 
                             </div>
 
                         </div>
+                    @else
+                        <div class="mt-6 rounded-2xl border border-green-100 bg-green-50 p-4 text-center">
+
+                            <div class="text-3xl">
+                                👑
+                            </div>
+
+                            <div class="mt-2 text-lg font-bold text-[#05643b]">
+                                Semua Reward Telah Terbuka
+                            </div>
+
+                            <div class="mt-1 text-sm text-gray-500">
+                                Terima kasih telah menjadi member setia Soklenn.
+                            </div>
+
+                        </div>
                     @endif
 
+                    {{-- Button --}}
                     <button onclick="closeRewardPopup()"
-                        class="mt-6 w-full rounded-2xl bg-[#05643b] py-3.5 text-base font-semibold text-white">
+                        class="mt-6 w-full rounded-2xl bg-[#05643b] py-4 text-lg font-semibold text-white transition hover:bg-[#045533] active:scale-[.98]">
 
                         Lanjutkan
 

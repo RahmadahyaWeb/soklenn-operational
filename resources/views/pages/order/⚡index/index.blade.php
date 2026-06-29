@@ -115,24 +115,25 @@
                                     {{ str($order->status)->replace('_', ' ')->title() }}
                                 </flux:badge>
 
-                                {{-- <flux:dropdown>
+                                @if ($this->nextStatus($order->status))
+                                    <flux:dropdown>
 
-                                    <flux:button size="sm" variant="subtle" icon="arrow-path">
-                                        Update
-                                    </flux:button>
+                                        <flux:button size="sm" variant="ghost" icon="arrow-path" />
 
-                                    <flux:menu>
+                                        <flux:menu>
 
-                                        @foreach ($this->statuses() as $status)
-                                            <flux:menu.item
-                                                wire:click="updateStatus({{ $order->id }}, '{{ $status }}')">
-                                                {{ str($status)->replace('_', ' ')->title() }}
+                                            <flux:menu.item icon="arrow-right"
+                                                wire:click="updateStatus(
+                            {{ $order->id }},
+                            '{{ $this->nextStatus($order->status) }}'
+                        )">
+                                                {{ $this->nextStatusLabel($order->status) }}
                                             </flux:menu.item>
-                                        @endforeach
 
-                                    </flux:menu>
+                                        </flux:menu>
 
-                                </flux:dropdown> --}}
+                                    </flux:dropdown>
+                                @endif
 
                             </div>
 

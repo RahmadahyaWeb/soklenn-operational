@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Income;
-use App\Models\IncomeCategory;
 use App\Models\Order;
+use App\Services\OrderStatusService;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
@@ -150,32 +149,11 @@ new #[Title('Orders')] class extends Component
                 return;
             }
 
-            $order->update([
-                'status' => $status,
-            ]);
-
-            if (
-                $status === 'picked_up'
-                && ! $order->income
-            ) {
-
-                $category = IncomeCategory::where('name', 'Order Income')
-                    ->first();
-
-                if ($category) {
-
-                    Income::create([
-                        'income_category_id' => $category->id,
-                        'order_id' => $order->id,
-                        'transaction_date' => now(),
-                        'amount' => $order->grand_total,
-                        'title' => 'Income from Order '.$order->invoice_number,
-                        'description' => null,
-                    ]);
-
-                }
-
-            }
+            app(OrderStatusService::class)
+                ->transition(
+                    $order,
+                    $status
+                );
 
             unset($this->orders);
 
@@ -236,6 +214,28 @@ new #[Title('Orders')] class extends Component
             'finished' => 'green',
             'picked_up' => 'emerald',
             default => 'zinc',
+        };
+    }
+
+    public function nextStatus(string $status): ?string
+    {
+        return match ($status) {
+            'pending' => 'washing',
+            'washing' => 'drying',
+            'drying' => 'finished',
+            'finished' => 'picked_up',
+            default => null,
+        };
+    }
+
+    public function nextStatusLabel(string $status): ?string
+    {
+        return match ($status) {
+            'pending' => 'Mulai Cuci',
+            'washing' => 'Pindah ke Drying',
+            'drying' => 'Selesai',
+            'finished' => 'Sudah Diambil',
+            default => null,
         };
     }
 };

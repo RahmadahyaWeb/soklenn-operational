@@ -383,8 +383,6 @@ new class extends Component
 
                 $this->authorizeUpdate($this->order);
 
-                $oldStatus = $this->order->status;
-
                 $this->order->update($data);
 
                 app(OrderStatusService::class)

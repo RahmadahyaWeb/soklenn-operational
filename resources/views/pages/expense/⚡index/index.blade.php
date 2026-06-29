@@ -65,6 +65,15 @@
 
         </div>
 
+        <div class="flex justify-end items-center">
+
+            <flux:button wire:click="export" icon="arrow-down-tray" variant="primary">
+                Export Excel
+            </flux:button>
+
+        </div>
+
+
         <flux:table :paginate="$this->expenses">
 
             <flux:table.columns>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\ExpenseExport;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Traits\AuthorizesCrud;
@@ -9,6 +10,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 new #[Title('Expenses')] class extends Component
 {
@@ -129,5 +131,18 @@ new #[Title('Expenses')] class extends Component
             $this->modal('delete-expense')->close();
 
         });
+    }
+
+    public function export()
+    {
+        return Excel::download(
+            new ExpenseExport(
+                $this->search,
+                $this->expense_category_id,
+                $this->start_date,
+                $this->end_date
+            ),
+            'expenses-'.now()->format('YmdHis').'.xlsx'
+        );
     }
 };

@@ -392,27 +392,25 @@
         <div id="reward-popup"
             class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-5">
 
-            <div class="relative w-full max-w-md overflow-hidden rounded-[36px] bg-white shadow-2xl animate-popup">
+            <div class="relative w-full max-w-sm overflow-hidden rounded-[28px] bg-white shadow-2xl animate-popup">
 
-                {{-- Background Decoration --}}
+                {{-- Background --}}
                 <div class="absolute inset-0">
-                    <div class="absolute -top-24 -left-20 h-56 w-56 rounded-full bg-green-100 blur-3xl opacity-70"></div>
-                    <div class="absolute -bottom-24 -right-20 h-56 w-56 rounded-full bg-amber-100 blur-3xl opacity-60">
-                    </div>
+                    <div class="absolute -top-20 -left-20 h-44 w-44 rounded-full bg-green-100 blur-3xl"></div>
+                    <div class="absolute -bottom-20 -right-20 h-44 w-44 rounded-full bg-yellow-100 blur-3xl"></div>
                 </div>
 
-                {{-- Content --}}
-                <div class="relative p-8">
+                <div class="relative p-6">
 
-                    {{-- Badge --}}
+                    {{-- Stamp --}}
                     <div class="flex justify-center">
 
                         <div class="relative">
 
-                            <div class="absolute inset-0 rounded-full bg-[#05643b]/20 blur-xl scale-125"></div>
+                            <div class="absolute inset-0 scale-125 rounded-full bg-[#05643b]/20 blur-xl"></div>
 
                             <div
-                                class="relative flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-5xl font-black text-white shadow-xl">
+                                class="relative flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-4xl font-black text-white">
 
                                 {{ $membership->stamp }}
 
@@ -423,48 +421,47 @@
                     </div>
 
                     {{-- Title --}}
-                    <h2 class="mt-8 text-center text-4xl font-black text-[#05643b]">
+                    <h2 class="mt-5 text-center text-3xl font-black text-[#05643b]">
                         🎉 Selamat!
                     </h2>
 
-                    <p class="mt-3 text-center text-2xl font-bold text-gray-900">
-                        Kamu sudah mengumpulkan
-                        <span class="text-[#05643b]">{{ $membership->stamp }} stamp</span>
+                    <p class="mt-2 text-center text-lg font-bold">
+                        Kamu telah mengumpulkan
+                        <span class="text-[#05643b]">
+                            {{ $membership->stamp }} stamp
+                        </span>
                     </p>
 
-                    <p class="mt-4 text-center leading-7 text-gray-500">
-                        Terima kasih telah mempercayakan perawatan sepatumu kepada
-                        <strong>Soklenn.</strong>
-                        Terus kumpulkan stamp untuk membuka reward berikutnya.
+                    <p class="mt-2 text-center text-sm leading-6 text-gray-500">
+                        Terima kasih telah mempercayakan perawatan sepatumu kepada Soklenn.
                     </p>
 
                     @if ($nextReward)
-                        <div
-                            class="mt-8 flex gap-4 rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-5">
+                        <div class="mt-5 rounded-2xl bg-green-50 p-4">
 
-                            <div
-                                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-[#05643b] text-3xl">
+                            <div class="flex items-center gap-3">
 
-                                🎁
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#05643b] text-xl">
 
-                            </div>
+                                    🎁
 
-                            <div>
-
-                                <div class="text-sm font-semibold uppercase tracking-wide text-[#05643b]">
-                                    Reward Berikutnya
                                 </div>
 
-                                <div class="mt-1 text-xl font-bold text-gray-900">
-                                    {{ $nextReward->name }}
-                                </div>
+                                <div class="flex-1">
 
-                                <div class="mt-2 text-sm text-gray-600">
-                                    Tinggal
-                                    <span class="font-bold text-[#05643b]">
+                                    <div class="text-xs font-semibold uppercase tracking-wide text-[#05643b]">
+                                        Reward Berikutnya
+                                    </div>
+
+                                    <div class="font-bold">
+                                        {{ $nextReward->name }}
+                                    </div>
+
+                                    <div class="text-sm text-gray-500">
                                         {{ $nextReward->required_stamp - $membership->stamp }}
                                         stamp lagi
-                                    </span>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -472,17 +469,12 @@
                         </div>
                     @endif
 
-                    {{-- Action --}}
                     <button onclick="closeRewardPopup()"
-                        class="mt-8 w-full rounded-2xl bg-[#05643b] py-4 text-lg font-semibold text-white transition hover:bg-[#045533]">
+                        class="mt-6 w-full rounded-2xl bg-[#05643b] py-3.5 text-base font-semibold text-white">
 
                         Lanjutkan
 
                     </button>
-
-                    <p class="mt-4 text-center text-sm text-gray-400">
-                        Sampai jumpa di treatment berikutnya 👟✨
-                    </p>
 
                 </div>
 

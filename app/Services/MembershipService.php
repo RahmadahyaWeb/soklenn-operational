@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\CustomerMembership;
 use App\Models\MembershipReward;
 use App\Models\MembershipRewardClaim;
+use App\Models\Order;
 
 class MembershipService
 {
@@ -62,6 +63,26 @@ class MembershipService
                 ]);
 
             }
+
+        }
+    }
+
+    protected function processMembership(
+        Order $order,
+        string $oldStatus
+    ): void {
+        if (
+            $oldStatus !== 'washing'
+            && $order->status === 'washing'
+            && is_null($order->membership_processed_at)
+        ) {
+
+            app(MembershipService::class)
+                ->addStamp($order->customer_id);
+
+            $order->update([
+                'membership_processed_at' => now(),
+            ]);
 
         }
     }

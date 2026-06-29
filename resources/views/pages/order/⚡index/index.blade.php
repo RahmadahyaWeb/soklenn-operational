@@ -1,7 +1,39 @@
-<div>
+<div class="space-y-6">
 
     <x-page-header title="Orders" description="Manage customer shoe cleaning orders and workflow progress."
         button-label="Add Order" :button-href="route('orders.create')" />
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+
+        @foreach ($this->statistics() as $status => $total)
+            <button wire:click="$set('status', '{{ $status }}')" @class([
+                'rounded-xl border p-4 text-left transition',
+                'border-zinc-900 bg-zinc-50 dark:border-white dark:bg-zinc-900' =>
+                    $status === $this->status,
+                'border-zinc-200 hover:border-zinc-400 dark:border-zinc-700 dark:hover:border-zinc-500' =>
+                    $status !== $this->status,
+            ])>
+
+                <div class="flex items-center justify-between">
+
+                    <span class="text-sm text-zinc-500">
+                        {{ $this->statisticLabels()[$status] }}
+                    </span>
+
+                    <flux:badge :color="$this->statisticColor($status)">
+                        {{ $total }}
+                    </flux:badge>
+
+                </div>
+
+                <div class="mt-3 text-3xl font-bold">
+                    {{ $total }}
+                </div>
+
+            </button>
+        @endforeach
+
+    </div>
 
     <flux:card class="space-y-6">
 
@@ -10,7 +42,8 @@
             <flux:field>
                 <flux:label>Search</flux:label>
 
-                <flux:input wire:model.live.debounce.300ms="search" type="text" placeholder="Invoice or customer..." />
+                <flux:input wire:model.live.debounce.300ms="search" type="text"
+                    placeholder="Invoice or customer..." />
             </flux:field>
 
             <flux:field>
@@ -22,9 +55,9 @@
                         All Status
                     </flux:select.option>
 
-                    @foreach ($this->statuses() as $status)
-                        <flux:select.option :value="$status">
-                            {{ str($status)->replace('_', ' ')->title() }}
+                    @foreach ($this->statuses() as $value => $label)
+                        <flux:select.option :value="$value">
+                            {{ $label }}
                         </flux:select.option>
                     @endforeach
 

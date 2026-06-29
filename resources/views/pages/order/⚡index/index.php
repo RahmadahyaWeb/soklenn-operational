@@ -25,6 +25,8 @@ new #[Title('Orders')] class extends Component
     public function mount()
     {
         $this->authorizeIndex(Order::class);
+
+        $this->status = 'active';
     }
 
     #[Computed()]
@@ -44,10 +46,57 @@ new #[Title('Orders')] class extends Component
                 });
             })
             ->when($this->status, function ($query) {
-                $query->where('status', $this->status);
+
+                if ($this->status === 'active') {
+                    $query->where('status', '!=', 'picked_up');
+                } else {
+                    $query->where('status', $this->status);
+                }
+
             })
             ->latest()
             ->paginate(10);
+    }
+
+    #[Computed]
+    public function statistics(): array
+    {
+        $query = Order::query();
+
+        if ($this->search) {
+            $query->where(function ($query) {
+                $query->where('invoice_number', 'like', "%{$this->search}%")
+                    ->orWhereHas('customer', function ($query) {
+                        $query->where('name', 'like', "%{$this->search}%");
+                    });
+            });
+        }
+
+        return [
+            'active' => (clone $query)
+                ->whereNotIn('status', ['picked_up', 'cancelled'])
+                ->count(),
+
+            'pending' => (clone $query)
+                ->where('status', 'pending')
+                ->count(),
+
+            'washing' => (clone $query)
+                ->where('status', 'washing')
+                ->count(),
+
+            'drying' => (clone $query)
+                ->where('status', 'drying')
+                ->count(),
+
+            'finished' => (clone $query)
+                ->where('status', 'finished')
+                ->count(),
+
+            'picked_up' => (clone $query)
+                ->where('status', 'picked_up')
+                ->count(),
+        ];
     }
 
     public function confirmDelete(int $id): void
@@ -155,12 +204,38 @@ new #[Title('Orders')] class extends Component
     public function statuses(): array
     {
         return [
-            'pending',
-            'washing',
-            'drying',
-            'finished',
-            'picked_up',
-            'cancelled',
+            'active' => 'Belum Diambil',
+            'pending' => 'Pending',
+            'washing' => 'Washing',
+            'drying' => 'Drying',
+            'finished' => 'Finished',
+            'picked_up' => 'Picked Up',
+            'cancelled' => 'Cancelled',
         ];
+    }
+
+    public function statisticLabels(): array
+    {
+        return [
+            'active' => 'Active',
+            'pending' => 'Pending',
+            'washing' => 'Washing',
+            'drying' => 'Drying',
+            'finished' => 'Finished',
+            'picked_up' => 'Picked Up',
+        ];
+    }
+
+    public function statisticColor(string $status): string
+    {
+        return match ($status) {
+            'active' => 'zinc',
+            'pending' => 'zinc',
+            'washing' => 'blue',
+            'drying' => 'yellow',
+            'finished' => 'green',
+            'picked_up' => 'emerald',
+            default => 'zinc',
+        };
     }
 };

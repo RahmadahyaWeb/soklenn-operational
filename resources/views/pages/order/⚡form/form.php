@@ -5,12 +5,11 @@ use App\Models\MembershipRewardClaim;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Service;
-use App\Services\MembershipService;
+use App\Services\OrderStatusService;
 use App\Traits\AuthorizesCrud;
 use Flux\Flux;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -374,7 +373,6 @@ new class extends Component
                 'invoice_number' => $this->invoice_number,
                 'received_at' => $this->received_at,
                 'completed_at' => $this->completed_at,
-                'status' => $this->status,
                 'subtotal' => $this->subtotal,
                 'discount' => $this->discount,
                 'grand_total' => $this->grandTotal,
@@ -387,67 +385,13 @@ new class extends Component
 
                 $oldStatus = $this->order->status;
 
-                $allowedTransitions = [
-                    'pending' => [
-                        'pending',
-                        'washing',
-                        'cancelled',
-                    ],
-
-                    'washing' => [
-                        'washing',
-                        'drying',
-                    ],
-
-                    'drying' => [
-                        'drying',
-                        'finished',
-                    ],
-
-                    'finished' => [
-                        'finished',
-                        'picked_up',
-                    ],
-
-                    'picked_up' => [
-                        'picked_up',
-                    ],
-
-                    'cancelled' => [
-                        'cancelled',
-                    ],
-                ];
-
-                if (
-                    ! in_array(
-                        $this->status,
-                        $allowedTransitions[$oldStatus] ?? []
-                    )
-                ) {
-                    throw ValidationException::withMessages([
-                        'status' => 'Perubahan status tidak valid.',
-                    ]);
-                }
-
-                if (
-                    $this->order->status !== 'pending'
-                    && $this->status === 'cancelled'
-                ) {
-                    throw ValidationException::withMessages([
-                        'status' => 'Order yang sudah masuk proses pencucian tidak dapat dibatalkan.',
-                    ]);
-                }
-
                 $this->order->update($data);
 
-                if (
-                    $this->order->status === 'washing'
-                    && $this->selected_reward_claim_id
-                ) {
-
-                    $this->consumeReward();
-
-                }
+                app(OrderStatusService::class)
+                    ->transition(
+                        $this->order,
+                        $this->status
+                    );
 
                 $this->order->details()->delete();
 
@@ -460,23 +404,6 @@ new class extends Component
                         'price' => $detail['price'],
                         'total' => $detail['total'],
                     ]);
-
-                }
-
-                if (
-                    $oldStatus !== 'washing'
-                    && $this->order->status === 'washing'
-                    && is_null($this->order->membership_processed_at)
-                ) {
-
-                    app(MembershipService::class)
-                        ->addStamp($this->order->customer_id);
-
-                    $this->order->update([
-                        'membership_processed_at' => now(),
-                    ]);
-
-                    $this->consumeReward();
 
                 }
 
@@ -601,30 +528,6 @@ new class extends Component
 
             return;
         }
-    }
-
-    protected function consumeReward(): void
-    {
-        if (! $this->selected_reward_claim_id) {
-            return;
-        }
-
-        $claim = MembershipRewardClaim::find(
-            $this->selected_reward_claim_id
-        );
-
-        if (! $claim) {
-            return;
-        }
-
-        if ($claim->used_at) {
-            return;
-        }
-
-        $claim->update([
-            'order_id' => $this->order->id,
-            'used_at' => now(),
-        ]);
     }
 
     public function removeReward(): void

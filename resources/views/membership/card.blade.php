@@ -446,39 +446,28 @@
 
                     {{-- Reward Baru --}}
                     @if ($currentReward)
-                        <div class="mt-6 rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-white p-5">
+                        <div class="mt-5 rounded-2xl border border-green-200 bg-green-50 p-4">
 
-                            <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-3">
 
                                 <div
-                                    class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-[#05643b] text-3xl text-white">
+                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-[#05643b] text-white">
 
                                     🎁
 
                                 </div>
 
-                                <div>
+                                <div class="leading-tight">
 
-                                    <div class="text-xs font-bold uppercase tracking-widest text-[#05643b]">
-                                        Reward Berhasil Didapat
-                                    </div>
-
-                                    <div class="mt-1 text-xl font-black text-gray-900">
+                                    <div class="font-bold text-[#05643b]">
                                         {{ $currentReward->name }}
                                     </div>
 
+                                    <div class="text-sm text-gray-500">
+                                        Dapat gunakan di order berikutnya
+                                    </div>
+
                                 </div>
-
-                            </div>
-
-                            <div class="mt-4 rounded-xl bg-white/80 p-3">
-
-                                <p class="text-sm leading-6 text-gray-600">
-                                    Reward ini sudah aktif dan dapat digunakan
-                                    <span class="font-semibold text-[#05643b]">
-                                        pada order berikutnya.
-                                    </span>
-                                </p>
 
                             </div>
 

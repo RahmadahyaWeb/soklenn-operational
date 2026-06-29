@@ -388,6 +388,109 @@
 
     </div>
 
+    @if ($membership->stamp > 0)
+        <div id="reward-popup"
+            class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-5">
+
+            <div class="relative w-full max-w-md overflow-hidden rounded-[36px] bg-white shadow-2xl animate-popup">
+
+                {{-- Background Decoration --}}
+                <div class="absolute inset-0">
+                    <div class="absolute -top-24 -left-20 h-56 w-56 rounded-full bg-green-100 blur-3xl opacity-70"></div>
+                    <div class="absolute -bottom-24 -right-20 h-56 w-56 rounded-full bg-amber-100 blur-3xl opacity-60">
+                    </div>
+                </div>
+
+                {{-- Content --}}
+                <div class="relative p-8">
+
+                    {{-- Badge --}}
+                    <div class="flex justify-center">
+
+                        <div class="relative">
+
+                            <div class="absolute inset-0 rounded-full bg-[#05643b]/20 blur-xl scale-125"></div>
+
+                            <div
+                                class="relative flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-5xl font-black text-white shadow-xl">
+
+                                {{ $membership->stamp }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{-- Title --}}
+                    <h2 class="mt-8 text-center text-4xl font-black text-[#05643b]">
+                        🎉 Selamat!
+                    </h2>
+
+                    <p class="mt-3 text-center text-2xl font-bold text-gray-900">
+                        Kamu sudah mengumpulkan
+                        <span class="text-[#05643b]">{{ $membership->stamp }} stamp</span>
+                    </p>
+
+                    <p class="mt-4 text-center leading-7 text-gray-500">
+                        Terima kasih telah mempercayakan perawatan sepatumu kepada
+                        <strong>Soklenn.</strong>
+                        Terus kumpulkan stamp untuk membuka reward berikutnya.
+                    </p>
+
+                    @if ($nextReward)
+                        <div
+                            class="mt-8 flex gap-4 rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-5">
+
+                            <div
+                                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-[#05643b] text-3xl">
+
+                                🎁
+
+                            </div>
+
+                            <div>
+
+                                <div class="text-sm font-semibold uppercase tracking-wide text-[#05643b]">
+                                    Reward Berikutnya
+                                </div>
+
+                                <div class="mt-1 text-xl font-bold text-gray-900">
+                                    {{ $nextReward->name }}
+                                </div>
+
+                                <div class="mt-2 text-sm text-gray-600">
+                                    Tinggal
+                                    <span class="font-bold text-[#05643b]">
+                                        {{ $nextReward->required_stamp - $membership->stamp }}
+                                        stamp lagi
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    @endif
+
+                    {{-- Action --}}
+                    <button onclick="closeRewardPopup()"
+                        class="mt-8 w-full rounded-2xl bg-[#05643b] py-4 text-lg font-semibold text-white transition hover:bg-[#045533]">
+
+                        Lanjutkan
+
+                    </button>
+
+                    <p class="mt-4 text-center text-sm text-gray-400">
+                        Sampai jumpa di treatment berikutnya 👟✨
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    @endif
+
     <script>
         async function downloadMembershipCard(event) {
 
@@ -639,5 +742,31 @@
             flipCard.classList.toggle('flipped');
 
         });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const popup = document.getElementById('reward-popup');
+
+            if (!popup) return;
+
+            setTimeout(() => {
+
+                popup.classList.remove('hidden');
+                popup.classList.add('flex');
+
+            }, 500);
+
+        });
+
+        function closeRewardPopup() {
+
+            const popup = document.getElementById('reward-popup');
+
+            popup.classList.remove('flex');
+            popup.classList.add('hidden');
+
+        }
     </script>
 @endsection

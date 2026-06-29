@@ -35,12 +35,18 @@ class MembershipCardController
             ->where('is_active', true)
             ->pluck('name', 'required_stamp');
 
+        $currentReward = MembershipReward::where(
+            'required_stamp',
+            $membership->stamp
+        )->first();
+
         return view('membership.card', [
             'membership' => $membership,
             'availableRewards' => $availableRewards,
             'usedRewards' => $usedRewards,
             'nextReward' => $nextReward,
             'rewardMap' => $rewardMap,
+            'currentReward' => $currentReward,
         ]);
     }
 }

@@ -416,6 +416,8 @@ new class extends Component
 
                 $this->authorizeStore(Order::class);
 
+                $data['public_token'] = Str::uuid()->toString();
+
                 $order = Order::create($data);
 
                 foreach ($this->details as $detail) {

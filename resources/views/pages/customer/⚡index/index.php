@@ -19,18 +19,99 @@ new #[Title('Customers')] class extends Component
 
     public ?Customer $selectedCustomer = null;
 
+    public string $search = '';
+
+    public string $tier = '';
+
+    public string $reward = '';
+
+    public string $stamp = '';
+
     public function mount()
     {
         $this->authorizeIndex(Customer::class);
     }
 
-    #[Computed()]
+    #[Computed]
     public function customers()
     {
         return Customer::with([
             'membership.rewardClaims',
         ])
-            ->latest()->paginate(10);
+            ->when($this->search, function ($query) {
+
+                $query->where(function ($query) {
+
+                    $query->where('name', 'like', "%{$this->search}%")
+                        ->orWhere('phone', 'like', "%{$this->search}%")
+                        ->orWhereHas('membership', function ($query) {
+
+                            $query->where(
+                                'member_code',
+                                'like',
+                                "%{$this->search}%"
+                            );
+
+                        });
+
+                });
+
+            })
+
+            ->when($this->tier, function ($query) {
+
+                $query->whereHas('membership', function ($query) {
+
+                    $query->where('tier', $this->tier);
+
+                });
+
+            })
+
+            ->when($this->reward === 'available', function ($query) {
+
+                $query->whereHas('membership.rewardClaims', function ($query) {
+
+                    $query->whereNull('used_at');
+
+                });
+
+            })
+
+            ->when($this->reward === 'empty', function ($query) {
+
+                $query->whereDoesntHave('membership.rewardClaims', function ($query) {
+
+                    $query->whereNull('used_at');
+
+                });
+
+            })
+
+            ->when($this->stamp, function ($query) {
+
+                $query->whereHas('membership', function ($query) {
+
+                    match ($this->stamp) {
+
+                        '0' => $query->where('stamp', 0),
+
+                        '1-4' => $query->whereBetween('stamp', [1, 4]),
+
+                        '5-9' => $query->whereBetween('stamp', [5, 9]),
+
+                        '10-14' => $query->whereBetween('stamp', [10, 14]),
+
+                        '15+' => $query->where('stamp', '>=', 15),
+
+                    };
+
+                });
+
+            })
+
+            ->latest()
+            ->paginate(10);
     }
 
     public function confirmDelete(int $id): void

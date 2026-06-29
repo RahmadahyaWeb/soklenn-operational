@@ -5,6 +5,104 @@
 
     <flux:card>
 
+        <div class="mb-6 grid gap-4 md:grid-cols-4">
+
+            <flux:field>
+
+                <flux:label>
+                    Search
+                </flux:label>
+
+                <flux:input wire:model.live.debounce.300ms="search" placeholder="Name, phone or member code..." />
+
+            </flux:field>
+
+            <flux:field>
+
+                <flux:label>
+                    Tier
+                </flux:label>
+
+                <flux:select wire:model.live="tier">
+
+                    <flux:select.option value="">
+                        All Tier
+                    </flux:select.option>
+
+                    <flux:select.option value="regular">
+                        Regular
+                    </flux:select.option>
+
+                    <flux:select.option value="family">
+                        Family
+                    </flux:select.option>
+
+                </flux:select>
+
+            </flux:field>
+
+            <flux:field>
+
+                <flux:label>
+                    Reward
+                </flux:label>
+
+                <flux:select wire:model.live="reward">
+
+                    <flux:select.option value="">
+                        All
+                    </flux:select.option>
+
+                    <flux:select.option value="available">
+                        Has Reward
+                    </flux:select.option>
+
+                    <flux:select.option value="empty">
+                        No Reward
+                    </flux:select.option>
+
+                </flux:select>
+
+            </flux:field>
+
+            <flux:field>
+
+                <flux:label>
+                    Stamp
+                </flux:label>
+
+                <flux:select wire:model.live="stamp">
+
+                    <flux:select.option value="">
+                        All
+                    </flux:select.option>
+
+                    <flux:select.option value="0">
+                        0 Stamp
+                    </flux:select.option>
+
+                    <flux:select.option value="1-4">
+                        1 - 4
+                    </flux:select.option>
+
+                    <flux:select.option value="5-9">
+                        5 - 9
+                    </flux:select.option>
+
+                    <flux:select.option value="10-14">
+                        10 - 14
+                    </flux:select.option>
+
+                    <flux:select.option value="15+">
+                        15+
+                    </flux:select.option>
+
+                </flux:select>
+
+            </flux:field>
+
+        </div>
+
         <flux:table :paginate="$this->customers">
 
             <flux:table.columns>
@@ -117,7 +215,7 @@
 
                     <flux:table.row>
 
-                        <flux:table.cell colspan="3" class="text-center">
+                        <flux:table.cell colspan="8" class="text-center">
                             No customers found.
                         </flux:table.cell>
 

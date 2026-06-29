@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\CustomerMembership;
 use App\Models\MembershipRewardClaim;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -473,6 +474,12 @@ new class extends Component
             'phone' => $this->customer_phone,
         ]);
 
+        CustomerMembership::create([
+            'customer_id' => $customer->id,
+            'membership_number' => $this->generateMembershipNumber(),
+            'member_since' => now(),
+        ]);
+
         $this->customer_id = $customer->id;
 
         $this->modal('customer-create')->close();
@@ -482,6 +489,13 @@ new class extends Component
             text: 'Customer created successfully',
             variant: 'success'
         );
+    }
+
+    protected function generateMembershipNumber(): string
+    {
+        $lastId = CustomerMembership::max('id') + 1;
+
+        return 'SKL-'.str_pad($lastId, 5, '0', STR_PAD_LEFT);
     }
 
     public function useReward(int $claimId): void

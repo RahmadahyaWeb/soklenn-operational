@@ -5,7 +5,7 @@
 
     <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
 
-        @foreach ($this->statistics() as $status => $total)
+        @foreach ($this->statistics() as $status => $stat)
             <button wire:click="$set('status', '{{ $status }}')" @class([
                 'rounded-xl border p-4 text-left transition',
                 'border-zinc-900 bg-zinc-50 dark:border-white dark:bg-zinc-900' =>
@@ -21,13 +21,21 @@
                     </span>
 
                     <flux:badge :color="$this->statisticColor($status)">
-                        {{ $total }}
+                        {{ $stat['count'] }}
                     </flux:badge>
 
                 </div>
 
-                <div class="mt-3 text-3xl font-bold">
-                    {{ $total }}
+                <div class="mt-3">
+
+                    <div class="text-3xl font-bold">
+                        {{ $stat['count'] }}
+                    </div>
+
+                    <div class="mt-1 text-sm text-zinc-500">
+                        Rp {{ number_format($stat['total'], 0, ',', '.') }}
+                    </div>
+
                 </div>
 
             </button>

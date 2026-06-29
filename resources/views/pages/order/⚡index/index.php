@@ -72,29 +72,65 @@ new #[Title('Orders')] class extends Component
         }
 
         return [
-            'active' => (clone $query)
-                ->whereNotIn('status', ['picked_up', 'cancelled'])
-                ->count(),
+            'active' => [
+                'count' => (clone $query)
+                    ->whereNotIn('status', ['picked_up', 'cancelled'])
+                    ->count(),
 
-            'pending' => (clone $query)
-                ->where('status', 'pending')
-                ->count(),
+                'total' => (clone $query)
+                    ->whereNotIn('status', ['picked_up', 'cancelled'])
+                    ->sum('grand_total'),
+            ],
 
-            'washing' => (clone $query)
-                ->where('status', 'washing')
-                ->count(),
+            'pending' => [
+                'count' => (clone $query)
+                    ->where('status', 'pending')
+                    ->count(),
 
-            'drying' => (clone $query)
-                ->where('status', 'drying')
-                ->count(),
+                'total' => (clone $query)
+                    ->where('status', 'pending')
+                    ->sum('grand_total'),
+            ],
 
-            'finished' => (clone $query)
-                ->where('status', 'finished')
-                ->count(),
+            'washing' => [
+                'count' => (clone $query)
+                    ->where('status', 'washing')
+                    ->count(),
 
-            'picked_up' => (clone $query)
-                ->where('status', 'picked_up')
-                ->count(),
+                'total' => (clone $query)
+                    ->where('status', 'washing')
+                    ->sum('grand_total'),
+            ],
+
+            'drying' => [
+                'count' => (clone $query)
+                    ->where('status', 'drying')
+                    ->count(),
+
+                'total' => (clone $query)
+                    ->where('status', 'drying')
+                    ->sum('grand_total'),
+            ],
+
+            'finished' => [
+                'count' => (clone $query)
+                    ->where('status', 'finished')
+                    ->count(),
+
+                'total' => (clone $query)
+                    ->where('status', 'finished')
+                    ->sum('grand_total'),
+            ],
+
+            'picked_up' => [
+                'count' => (clone $query)
+                    ->where('status', 'picked_up')
+                    ->count(),
+
+                'total' => (clone $query)
+                    ->where('status', 'picked_up')
+                    ->sum('grand_total'),
+            ],
         ];
     }
 

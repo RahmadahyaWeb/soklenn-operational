@@ -402,7 +402,6 @@
                 <div
                     class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(5,100,59,.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(255,200,0,.08),transparent_45%)]">
                 </div>
-
                 <div class="relative p-6">
 
                     {{-- Stamp --}}
@@ -410,10 +409,10 @@
 
                         <div class="relative">
 
-                            <div class="absolute inset-0 scale-125 rounded-full bg-[#05643b]/15 blur-xl"></div>
+                            <div class="absolute inset-0 scale-110 rounded-full bg-[#05643b]/20 blur-lg"></div>
 
                             <div
-                                class="relative flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-5xl font-black text-white shadow-lg">
+                                class="relative flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-[#05643b] text-4xl font-black text-white shadow-lg">
 
                                 {{ $membership->stamp }}
 
@@ -424,48 +423,61 @@
                     </div>
 
                     {{-- Title --}}
-                    <h2 class="mt-5 text-center text-4xl font-black text-[#05643b]">
-                        Selamat!
-                    </h2>
+                    <h2 class="mt-5 text-center">
+                        <span class="block text-lg font-medium text-gray-500">
+                            Selamat,
+                        </span>
 
-                    <p class="mt-3 text-center text-2xl font-bold leading-tight text-gray-900">
-                        Kamu telah mengumpulkan
+                        <span class="mt-1 block text-3xl font-black text-[#05643b]">
+                            {{ $membership->customer->name }}!
+                        </span>
+                    </h2>
+                    <p class="mt-3 text-center text-lg font-bold text-gray-900">
+                        Kamu berhasil mengumpulkan
                         <span class="text-[#05643b]">
                             {{ $membership->stamp }} stamp
                         </span>
                     </p>
 
-                    <p class="mt-3 text-center text-base leading-7 text-gray-500">
-                        Terima kasih <b>{{ $membership->customer->name }}</b> telah mempercayakan perawatan sepatumu kepada
-                        <span class="font-semibold text-[#05643b]">
-                            Soklenn
-                        </span>.
+                    <p class="mt-3 text-center text-sm leading-7 text-gray-500">
+                        Terima kasih telah mempercayakan perawatan sepatumu kepada
+                        <span class="font-semibold text-[#05643b]">Soklenn</span>.
                     </p>
 
-                    {{-- Reward yang baru didapat --}}
+                    {{-- Reward Baru --}}
                     @if ($currentReward)
-                        <div class="mt-6 rounded-2xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-5">
+                        <div class="mt-6 rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-white p-5">
 
-                            <div class="text-center">
+                            <div class="flex items-center gap-4">
 
                                 <div
-                                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#05643b] text-3xl">
+                                    class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-[#05643b] text-3xl text-white">
 
                                     🎁
 
                                 </div>
 
-                                <div class="mt-4 text-xs font-bold uppercase tracking-widest text-[#05643b]">
-                                    Reward Berhasil Didapat
+                                <div>
+
+                                    <div class="text-xs font-bold uppercase tracking-widest text-[#05643b]">
+                                        Reward Berhasil Didapat
+                                    </div>
+
+                                    <div class="mt-1 text-xl font-black text-gray-900">
+                                        {{ $currentReward->name }}
+                                    </div>
+
                                 </div>
 
-                                <div class="mt-2 text-2xl font-black text-[#05643b]">
-                                    {{ $currentReward->name }}
-                                </div>
+                            </div>
 
-                                <p class="mt-3 text-sm leading-6 text-gray-600">
-                                    Reward ini telah aktif dan dapat digunakan
-                                    pada order berikutnya.
+                            <div class="mt-4 rounded-xl bg-white/80 p-3">
+
+                                <p class="text-sm leading-6 text-gray-600">
+                                    Reward ini sudah aktif dan dapat digunakan
+                                    <span class="font-semibold text-[#05643b]">
+                                        pada order berikutnya.
+                                    </span>
                                 </p>
 
                             </div>
@@ -473,55 +485,43 @@
                         </div>
                     @endif
 
-                    {{-- Reward berikutnya --}}
+                    {{-- Reward Selanjutnya --}}
                     @if ($nextReward)
-                        <div class="mt-5 flex items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                        <div class="mt-4 flex items-center justify-between rounded-2xl bg-gray-100 px-4 py-3">
 
-                            <div
-                                class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-white text-2xl shadow">
+                            <div>
 
-                                ⭐
-
-                            </div>
-
-                            <div class="min-w-0">
-
-                                <div class="text-xs font-bold uppercase tracking-wider text-gray-500">
-                                    Reward Berikutnya
+                                <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Target Berikutnya
                                 </div>
 
-                                <div class="mt-1 text-lg font-bold text-gray-900">
+                                <div class="font-bold text-gray-900">
                                     {{ $nextReward->name }}
                                 </div>
 
-                                <div class="mt-1 text-sm text-[#05643b]">
+                            </div>
 
-                                    Tinggal
-                                    {{ max($nextReward->required_stamp - $membership->stamp, 0) }}
-                                    stamp lagi
+                            <div class="rounded-full bg-[#05643b] px-3 py-1 text-sm font-bold text-white">
 
-                                </div>
+                                {{ max($nextReward->required_stamp - $membership->stamp, 0) }}
+                                Stamp
 
                             </div>
 
                         </div>
-                    @endif
-
-                    {{-- Semua reward selesai --}}
-                    @if (!$nextReward)
-                        <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center">
+                    @elseif(!$currentReward)
+                        <div class="mt-4 rounded-2xl bg-green-50 p-4 text-center">
 
                             <div class="text-3xl">
                                 👑
                             </div>
 
-                            <div class="mt-2 text-lg font-bold text-amber-700">
+                            <div class="mt-2 font-bold text-[#05643b]">
                                 Semua Reward Telah Terbuka
                             </div>
 
-                            <div class="mt-2 text-sm text-amber-600">
-                                Terima kasih <b>{{ $membership->customer->name }}</b> telah menjadi bagian dari keluarga
-                                Soklenn.
+                            <div class="mt-1 text-sm text-gray-500">
+                                Terima kasih telah menjadi bagian dari keluarga Soklenn.
                             </div>
 
                         </div>
@@ -529,7 +529,7 @@
 
                     {{-- Button --}}
                     <button onclick="closeRewardPopup()"
-                        class="mt-6 w-full rounded-2xl bg-[#05643b] py-4 text-lg font-semibold text-white transition hover:bg-[#045533] active:scale-[.98]">
+                        class="mt-6 w-full rounded-2xl bg-[#05643b] py-3.5 text-base font-semibold text-white transition hover:bg-[#045533]">
 
                         Lanjutkan
 

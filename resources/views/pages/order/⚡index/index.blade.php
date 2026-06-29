@@ -176,6 +176,28 @@
                                         </flux:menu.item>
                                     @endif
 
+                                    <flux:menu.separator />
+
+                                    <flux:menu.item icon="eye"
+                                        href="{{ route('invoice.public', $order->public_token) }}" target="_blank">
+
+                                        Lihat Invoice
+
+                                    </flux:menu.item>
+
+                                    <flux:menu.item icon="link"
+                                        x-on:click="
+        navigator.clipboard.writeText('{{ route('invoice.public', $order->public_token) }}');
+        $flux.toast({
+            heading: 'Berhasil',
+            text: 'Link invoice berhasil disalin.'
+        });
+    ">
+
+                                        Salin Link Invoice
+
+                                    </flux:menu.item>
+
                                 </flux:menu>
 
                             </flux:dropdown>

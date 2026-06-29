@@ -3,10 +3,8 @@
 use App\Http\Controllers\MembershipCardController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MembershipLookupController;
+use App\Http\Controllers\PublicInvoiceController;
 use Illuminate\Support\Facades\Route;
-
-// Route::livewire('/', 'pages::landing-page')
-//     ->name('home');
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +29,9 @@ Route::post(
     '/membership',
     [MembershipLookupController::class, 'search']
 )->name('membership.lookup.search');
+
+Route::get('/invoice/{token}', PublicInvoiceController::class)
+    ->name('invoice.public');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard', 'pages::dashboard.index')

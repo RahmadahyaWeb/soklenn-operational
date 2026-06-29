@@ -18,6 +18,7 @@ class Order extends Model
         'note',
         'membership_processed_at',
         'membership_reward_claim_id',
+        'public_token',
     ];
 
     protected $casts = [

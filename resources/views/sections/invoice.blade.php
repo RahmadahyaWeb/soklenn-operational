@@ -205,7 +205,7 @@
 
                         <div class="flex flex-col items-center">
 
-                            <img src="{{ asset('qris.png') }}" alt="QRIS"
+                            <img src="{{ asset('qris.PNG') }}" alt="QRIS"
                                 class="w-64 rounded-2xl border bg-white p-3 shadow-sm">
 
                             <div class="mt-5 text-center">
